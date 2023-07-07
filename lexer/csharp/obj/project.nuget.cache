@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "h7DkzxuhjGqfDSsd9AwS/w/6V6h4tPdv8M9qyxkEZBl7KSAWewZDtGmYVh7BKqQJjVwpRiIRk4WeZkrXfxbVNg==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/lexer/csharp/zscript.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.3/microsoft.aspnetcore.app.ref.7.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
