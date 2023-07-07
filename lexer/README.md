@@ -59,6 +59,39 @@ $ sudo ./setup.sh
 # Benchmark an implementation
 $ time ./bench.sh path/to/zscript # eg. time ./bench go/zscipt
 
-# Benchmark all implemenations and generate report
-$ ./report.sh | sort -n -k2 | tee results.txt
+# Benchmark all implementations and generate report
+$ ./generate.sh
 ```
+
+The following implementations are slow with built-in output formatting:
+* Go
+* Java (PrintWriter also uses synchroized locks)
+* Odin
+
+Legend:
+* Format = Using built-in output formatting
+* Custom = Custom output
+
+| Language | Format | Custom |
+| -------- | -----: | -----: |
+| Go       | 3.312  | 1.240  |
+| Java     | 5.735  | 2.471  |
+| Odin     | 5.935  | 2.322  |
+
+## Results
+Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+
+Legend:
+* Time = Total seconds
+* RSS = maximum resident set size in KB
+
+| Language | Time | RSS    |
+| -------- | ---- | -----: |
+| zig      | 0.81 | 56936  |
+| rust     | 1.17 | 32160  |
+| go       | 1.23 | 71284  |
+| c        | 1.45 | 51100  |
+| odin     | 2.32 | 34656  |
+| cpp      | 2.33 | 61092  |
+| java     | 2.47 | 308336 |
+| csharp   | 2.78 | 162804 |
