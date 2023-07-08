@@ -56,11 +56,16 @@ lspconfig.omnisharp.setup {
 ```
 
 ## Challenges
-Implementations for the challenges are likely not idomatic due to my lack of experience in the language. Most of my programming experience is in Java and PHP.
+Implementations for the challenges are likely not idomatic due to my lack of
+experience in the language. Most of my programming experience is in Java and PHP.
 
 ### Lexer
-Implements a lexer for a simple scripting language. The syntax requires only a single character of lookahead.
+Implements a lexer for a simple scripting language. The syntax requires only a
+single character of lookahead.
 
+### Palindrome
+Use parallelism to calculate the sum of all numbers with 9 digits that are a 
+palindrome.
 
 # Notes
 
