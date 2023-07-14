@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "UeQ9XZ5/V/dXHI4XzawNzKQmLUeBfD/xq9/aXkSjTmrZNJVTQ60hYD4pkAgXvD9A3aB/P0TTbZgM1VzT0K2PRA==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/binarytree/csharp/binarytree.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}

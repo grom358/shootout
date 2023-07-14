@@ -20,6 +20,8 @@ NOTE: I am using Manjaro Linux 23
 * jdk17-openjdk
 * go
 * zig
+* apr
+* boost
 
 ```
 # install rust toolchain
@@ -66,6 +68,11 @@ single character of lookahead.
 ### Palindrome
 Use parallelism to calculate the sum of all numbers with 9 digits that are a 
 palindrome.
+
+### Binary Trees
+Adaptation of binary-trees from the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/binarytrees.html#binarytrees).
+Tests memory management. Implementations are single threaded and use ready
+available libraries.
 
 # Notes
 
