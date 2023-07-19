@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z+/OfVj1R1am9Hr7VCVy97KJmi+/Y5yOfvQfrFwnUdh6C07oOjS6n0VXzQCOJUTNnfNBsjCXzt4rxijrVAosKA==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/mandelbrot/csharp/mandelbrot.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -74,6 +74,9 @@ Adaptation of binary-trees from the [The Computer Language Benchmark Games](http
 Tests memory management. Implementations are single threaded and use ready
 available libraries.
 
+### Mandelbrot
+Plot the Mandelbrot set [-1.5-i,0.5+i] on an 16000x16000 bitmap. Write output in portable bitmap format (pbm).
+
 # Notes
 
 ## Java
