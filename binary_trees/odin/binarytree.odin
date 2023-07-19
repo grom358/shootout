@@ -67,7 +67,7 @@ main :: proc() {
 		for i: uint = 1; i <= iterations; i += 1 {
 			temp_tree := binary_tree_bottom_up(depth, context.temp_allocator)
 			check += binary_tree_count_nodes(temp_tree)
-      free_all(context.temp_allocator)
+			free_all(context.temp_allocator)
 		}
 		fmt.printf("%d\t trees of depth %d\t check: %d\n", iterations, depth, check)
 	}
