@@ -77,6 +77,9 @@ available libraries.
 ### Mandelbrot
 Plot the Mandelbrot set [-1.5-i,0.5+i] on an 16000x16000 bitmap. Write output in portable bitmap format (pbm).
 
+### NBody
+Model the orbits of Jovian planets, using the same simple symplectic-integrator. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html#nbody).
+
 # Notes
 
 ## Java
