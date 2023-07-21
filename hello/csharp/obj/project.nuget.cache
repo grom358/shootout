@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "7RHjl9NQC0LIby0qH/T6Pk0jg/YbjikLgBS8UPBmmA250NOXBViPRC59GfMKdIPO7/r+PuPsi4kLGnawVJw/8w==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/hello/csharp/hello.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}

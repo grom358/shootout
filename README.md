@@ -61,6 +61,9 @@ lspconfig.omnisharp.setup {
 Implementations for the challenges are likely not idomatic due to my lack of
 experience in the language. Most of my programming experience is in Java and PHP.
 
+### Hello
+Hello World to test startup and minimum memory costs.
+
 ### Lexer
 Implements a lexer for a simple scripting language. The syntax requires only a
 single character of lookahead.
