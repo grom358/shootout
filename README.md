@@ -78,10 +78,13 @@ Tests memory management. Implementations are single threaded and use ready
 available libraries.
 
 ### Mandelbrot
-Plot the Mandelbrot set [-1.5-i,0.5+i] on an 16000x16000 bitmap. Write output in portable bitmap format (pbm).
+Plot the Mandelbrot set [-1.5-i,0.5+i] on an 16000x16000 bitmap. Write output in portable bitmap format (pbm). From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/mandelbrot.html#mandelbrot).
 
 ### NBody
 Model the orbits of Jovian planets, using the same simple symplectic-integrator. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html#nbody).
+
+### fasta
+Generate and write random DNA sequences. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/fasta.html#fasta).
 
 # Notes
 
@@ -165,6 +168,7 @@ Pros:
 Cons:
 * Missing documentation
 * No 1.0 release
+* Not ready for production use
 
 ## Odin
 Pros:
