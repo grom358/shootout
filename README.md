@@ -86,6 +86,9 @@ Model the orbits of Jovian planets, using the same simple symplectic-integrator.
 ### fasta
 Generate and write random DNA sequences. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/fasta.html#fasta).
 
+### knucleotide
+Hashtable of k-nucleotide strings. From the [The Computer Language Benchmark Games])(https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/knucleotide.html#knucleotide).
+
 # Notes
 
 ## Java

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1jTYOBXFo6raIdeEB3upV+Q2c30dB6gZhxgB7qTky2TW+O7p4wm6B6fw3GuHHqd1NPnaQpfTSekuDi0/7xddrg==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/knucleotide/csharp/knucleotide.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}
