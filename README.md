@@ -165,7 +165,7 @@ Pros:
 * No hidden control flow
 * No hidden memory allocations
 * No preprocessor, no macros
-* Error avlues
+* Error values
 * Custom allocators. Eg. arena allocator
 
 Cons:
