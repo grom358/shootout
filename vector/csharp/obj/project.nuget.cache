@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "v+oqzTs2AmJJAeVXtYvhLteb8aGvM1IYoFgYNPnTDVM1OiP7YthNkvVUd48hH/HHC4z+tdEJvjT2I2qIy0ZMEg==",
+  "success": true,
+  "projectFilePath": "/home/grom/dev/shootout/vector/csharp/vector.csproj",
+  "expectedPackageFiles": [
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.9/microsoft.aspnetcore.app.ref.7.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}

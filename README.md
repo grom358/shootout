@@ -72,6 +72,9 @@ single character of lookahead.
 Use parallelism to calculate the sum of all numbers with 9 digits that are a 
 palindrome.
 
+### Vector
+Vector (ie. dynamic resizable array) test.
+
 ### Binary Trees
 Adaptation of binary-trees from the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/binarytrees.html#binarytrees).
 Tests memory management. Implementations are single threaded and use ready
@@ -87,7 +90,7 @@ Model the orbits of Jovian planets, using the same simple symplectic-integrator.
 Generate and write random DNA sequences. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/fasta.html#fasta).
 
 ### knucleotide
-Hashtable of k-nucleotide strings. From the [The Computer Language Benchmark Games])(https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/knucleotide.html#knucleotide).
+Hashtable of k-nucleotide strings. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/knucleotide.html#knucleotide).
 
 # Notes
 
