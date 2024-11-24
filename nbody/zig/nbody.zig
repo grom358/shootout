@@ -83,7 +83,7 @@ fn offset_momemtum(system: []Body) void {
 
 fn energy(system: []Body) f64 {
     var e: f64 = 0.0;
-    for (system) |body, i| {
+    for (system, 0..) |body, i| {
         e += 0.5 * body.mass * (body.vx * body.vx + body.vy * body.vy + body.vz * body.vz);
         for (system[i + 1 ..]) |bj| {
             const dx = body.x - bj.x;
@@ -97,7 +97,7 @@ fn energy(system: []Body) f64 {
 }
 
 fn advance(system: []Body, dt: f64) void {
-    for (system) |*bi, i| {
+    for (system, 0..) |*bi, i| {
         for (system[i + 1 ..]) |*bj| {
             const dx = bi.x - bj.x;
             const dy = bi.y - bj.y;
@@ -134,7 +134,7 @@ pub fn main() !void {
     const dt = 0.01;
     const stdout = std.io.getStdOut().writer();
 
-    var sys: []Body = System[0..];
+    const sys: []Body = System[0..];
     offset_momemtum(sys);
 
     try stdout.print("{d:.9}\n", .{energy(sys)});

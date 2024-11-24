@@ -10,7 +10,7 @@ fn countNucleotides(data: []const u8, k: usize, allocator: std.mem.Allocator) !H
     const endIndex = data.len - k;
     var i: usize = 0;
     while (i <= endIndex) : (i += 1) {
-        var fragment = data[i .. i + k];
+        const fragment = data[i .. i + k];
         const entry = try counts.getOrPutValue(fragment, 0);
         entry.value_ptr.* += 1;
     }
@@ -40,13 +40,13 @@ pub fn printFrequencies(data: []const u8, k: usize, allocator: std.mem.Allocator
         try sortedPairs.append(kv);
     }
 
-    var pairs = sortedPairs.toOwnedSlice();
-    std.sort.sort(HashMap.Entry, pairs, {}, comparePair);
+    const pairs = try sortedPairs.toOwnedSlice();
+    std.sort.block(HashMap.Entry, pairs, {}, comparePair);
 
     var frequency: f64 = 0.0;
     var buffer: [64]u8 = undefined;
     for (pairs) |pair| {
-        frequency = @intToFloat(f64, pair.value_ptr.*) / @intToFloat(f64, total) * 100.0;
+        frequency = @as(f64, @floatFromInt(pair.value_ptr.*)) / @as(f64, @floatFromInt(total)) * 100.0;
         const key = std.ascii.upperString(&buffer, pair.key_ptr.*);
         try print("{s} {d:.3}\n", .{ key, frequency });
     }
@@ -71,7 +71,7 @@ fn readData(allocator: std.mem.Allocator) ![]u8 {
     const stdin = std.io.getStdIn().reader();
     var bufferedReader = std.io.bufferedReader(stdin);
     var in = bufferedReader.reader();
-    var input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024);
+    const input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024);
     defer allocator.free(input);
     var lines = std.mem.split(u8, input, "\n");
     while (lines.next()) |line| {
@@ -79,14 +79,14 @@ fn readData(allocator: std.mem.Allocator) ![]u8 {
             break;
         }
     }
-    var data = try std.mem.replaceOwned(u8, allocator, lines.rest(), "\n", "");
+    const data = try std.mem.replaceOwned(u8, allocator, lines.rest(), "\n", "");
     return data;
 }
 
 pub fn main() !void {
     const allocator = std.heap.c_allocator;
 
-    var data = try readData(allocator);
+    const data = try readData(allocator);
     defer allocator.free(data);
 
     try printFrequencies(data, 1, allocator);

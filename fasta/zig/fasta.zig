@@ -7,7 +7,7 @@ var seed: u32 = 42;
 
 fn randomNum() f64 {
     seed = (seed * IA + IC) % IM;
-    return @intToFloat(f64, seed) / @intToFloat(f64, IM);
+    return @as(f64, @floatFromInt(seed)) / @as(f64, @floatFromInt(IM));
 }
 
 const WIDTH: usize = 60;
@@ -37,7 +37,7 @@ const AminoAcid = struct {
 
 fn accumulateProbabilities(genelist: []AminoAcid) void {
     var cp: f64 = 0.0;
-    for (genelist) |gene, i| {
+    for (genelist, 0..) |gene, i| {
         cp += gene.p;
         genelist[i].p = cp;
     }
@@ -54,7 +54,7 @@ fn randomFasta(out: anytype, header: []const u8, genelist: []AminoAcid, repeat: 
         const length = @min(WIDTH, count);
         var pos: usize = 0;
         while (pos < length) : (pos += 1) {
-            var r = randomNum();
+            const r = randomNum();
             for (genelist) |gene| {
                 if (gene.p >= r) {
                     try ss.writeByte(gene.c);
@@ -80,7 +80,7 @@ pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
     var bufferedWriter = std.io.bufferedWriter(stdout);
     defer bufferedWriter.flush() catch unreachable;
-    var out = bufferedWriter.writer();
+    const out = bufferedWriter.writer();
 
     const alu = "GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG" ++
         "GGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGA" ++

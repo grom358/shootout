@@ -3,11 +3,11 @@ const Mutex = std.Thread.Mutex;
 
 fn is_palindrome(number: u32) bool {
     var reversed_number: u32 = 0;
-    var original_number = number;
+    const original_number = number;
 
     var n = number;
     while (n != 0) : (n = n / 10) {
-        var digit = n % 10;
+        const digit = n % 10;
         reversed_number = reversed_number * 10 + digit;
     }
 

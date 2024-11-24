@@ -26,14 +26,14 @@ pub fn main() !void {
 
     var y: usize = 0;
     while (y < h) : (y += 1) {
-        var Ci: f64 = 2.0 * @intToFloat(f64, y) / @intToFloat(f64, h) - 1.0;
+        const Ci: f64 = 2.0 * @as(f64, @floatFromInt(y)) / @as(f64, @floatFromInt(h)) - 1.0;
         var x: usize = 0;
         while (x < w) : (x += 1) {
             var Zr: f64 = 0.0;
             var Zi: f64 = 0.0;
             var Tr: f64 = 0.0;
             var Ti: f64 = 0.0;
-            var Cr: f64 = 2.0 * @intToFloat(f64, x) / @intToFloat(f64, w) - 1.5;
+            const Cr: f64 = 2.0 * @as(f64, @floatFromInt(x)) / @as(f64, @floatFromInt(w)) - 1.5;
 
             var i: usize = 0;
             while (i < iterations and (Tr + Ti < limitSq)) : (i += 1) {
@@ -54,8 +54,8 @@ pub fn main() !void {
                 byteAcc = 0;
                 bitNum = 0;
             } else if (x == w - 1) {
-                const offset = @intCast(u4, w % 8);
-                const shift = @intCast(u3, 8 - offset);
+                const offset: u4 = @intCast(w % 8);
+                const shift: u3 = @intCast(8 - offset);
                 byteAcc = byteAcc << shift;
                 try out.writeByte(byteAcc);
                 byteAcc = 0;

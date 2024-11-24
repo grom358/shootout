@@ -25,25 +25,7 @@ walking the tree)
 * odin_arena - Uses a 1Gb backed arena allocator
 * rust - Uses Box to managed deallocation of the tree
 * rust_typed_arena - Uses the typed arena create as arena allocator for trees
-* zig - Uses arena allocator backed by the C allocator
-
-With the zig implementation I tried various allocators as backends:
-
-Legend:
-* Backend = Backend allocator for arena allocator
-* Time = Total seconds
-* RSS = maximum resident set size in KB
-
-| Backend                 | Time   | RSS     |
-| ----------------------- | -----: | ------: |
-| c_allocator             |   7.84 |  135256 |
-| FixedBufferAllocator    |  12.82 | 1049700 |
-| page_allocator          |  25.67 |  146376 |
-| GeneralPurposeAllocator | 117.47 |  146588 |
-
-In master branch of Zig ArenaAllocator supports retaining space. This would
-greatly improve the performance (at least for page_allocator) as we won't have
-to refetch pages from the OS in each iteration.
+* zig - Uses arena allocator backed by page allocator
 
 ## Results
 Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
@@ -57,8 +39,8 @@ Legend:
 | c_apr            |  2.28 |  133824 |
 | java             |  2.85 | 1782580 |
 | rust_typed_arena |  3.83 |  133040 |
+| zig              |  3.96 |  198604 |
 | cpp_boost        |  4.38 |  265068 |
-| zig              |  7.84 |  135256 |
 | c                | 11.97 |  263628 |
 | rust             | 12.94 |  460632 |
 | cpp              | 14.21 |  462424 |

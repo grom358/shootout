@@ -13,7 +13,7 @@ const Random = struct {
 
     pub fn next(self: *Random, max: usize) usize {
         self.seed = (self.seed * IA + IC) % IM;
-        return @floatToInt(usize, @intToFloat(f64, max) * (@intToFloat(f64, self.seed) / IMF));
+        return @intFromFloat(@as(f64, @floatFromInt(max)) * (@as(f64, @floatFromInt(self.seed)) / IMF));
     }
 };
 

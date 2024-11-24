@@ -12,7 +12,7 @@ pub fn main() !void {
     var in = bufferedReader.reader();
     var bufferedWriter = std.io.bufferedWriter(stdout);
     var out = bufferedWriter.writer();
-    var input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024 * 4);
+    const input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024 * 4);
     var lexer = Lexer.init(input);
 
     while (true) {
@@ -153,7 +153,7 @@ const TokenType = enum {
     }
 
     fn keyword(ident: []const u8) ?TokenType {
-        const map = std.ComptimeStringMap(TokenType, .{
+        const map = std.StaticStringMap(TokenType).initComptime(.{
             .{ "let", .Let },
             .{ "true", .True },
             .{ "false", .False },

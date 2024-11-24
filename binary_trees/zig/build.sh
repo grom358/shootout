@@ -1,2 +1,2 @@
 #!/bin/sh
-zig build-exe --library c -O ReleaseFast binarytree.zig
+zig build-exe -O ReleaseFast binarytree.zig
