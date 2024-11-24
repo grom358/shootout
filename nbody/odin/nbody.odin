@@ -69,11 +69,7 @@ NBodySystem :: struct {
 }
 
 init_system :: proc(system: ^NBodySystem) {
-	system.bodies[0] = Sun;
-	system.bodies[1] = Jupiter;
-	system.bodies[2] = Saturn;
-	system.bodies[3] = Uranus;
-	system.bodies[4] = Neptune;
+	system.bodies = [?]Body{ Sun, Jupiter, Saturn, Uranus, Neptune };
 	offset_momentum(system)
 }
 
