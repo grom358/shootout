@@ -21,7 +21,7 @@ Body :: struct {
 }
 
 Sun :: Body{
-  x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, mass = SOLAR_MASS,
+	x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, mass = SOLAR_MASS,
 }
 
 Jupiter :: Body{
@@ -65,16 +65,20 @@ Neptune :: Body{
 }
 
 NBodySystem :: struct {
-	bodies: []Body,
+	bodies: [BODIES_LENGTH]Body,
 }
 
 init_system :: proc(system: ^NBodySystem) {
-  system.bodies = []Body{ Sun, Jupiter, Saturn, Uranus, Neptune }
+	system.bodies[0] = Sun;
+	system.bodies[1] = Jupiter;
+	system.bodies[2] = Saturn;
+	system.bodies[3] = Uranus;
+	system.bodies[4] = Neptune;
 	offset_momentum(system)
 }
 
 offset_momentum :: proc(system: ^NBodySystem) {
-  n := len(system.bodies)
+	n := len(system.bodies)
 	px: f64 = 0.0
 	py: f64 = 0.0
 	pz: f64 = 0.0
@@ -89,7 +93,7 @@ offset_momentum :: proc(system: ^NBodySystem) {
 }
 
 energy :: proc(system: ^NBodySystem) -> f64 {
-  n := len(system.bodies)
+	n := len(system.bodies)
 	e: f64 = 0.0
 
 	for i := 0; i < n; i += 1 {
@@ -101,7 +105,7 @@ energy :: proc(system: ^NBodySystem) -> f64 {
 					system.bodies[i].vz * system.bodies[i].vz)
 
 		for j := i + 1; j < n; j += 1 {
-      dx := system.bodies[i].x - system.bodies[j].x
+			dx := system.bodies[i].x - system.bodies[j].x
 			dy := system.bodies[i].y - system.bodies[j].y
 			dz := system.bodies[i].z - system.bodies[j].z
 
@@ -114,10 +118,10 @@ energy :: proc(system: ^NBodySystem) -> f64 {
 }
 
 advance :: proc(system: ^NBodySystem, dt: f64) {
-  n := len(system.bodies)
+	n := len(system.bodies)
 	for i := 0; i < n; i += 1 {
 		for j := i + 1; j < n; j += 1 {
-      dx := system.bodies[i].x - system.bodies[j].x
+			dx := system.bodies[i].x - system.bodies[j].x
 			dy := system.bodies[i].y - system.bodies[j].y
 			dz := system.bodies[i].z - system.bodies[j].z
 
