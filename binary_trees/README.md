@@ -36,18 +36,18 @@ Legend:
 
 | Name             | Time  | RSS     |
 | ---------------- | ----: | ------: |
-| c_apr            |  2.28 |  133824 |
-| java             |  2.85 | 1782580 |
-| rust_typed_arena |  3.83 |  133040 |
-| zig              |  3.96 |  198604 |
-| cpp_boost        |  4.38 |  265068 |
-| c                | 11.97 |  263628 |
-| rust             | 12.94 |  460632 |
-| cpp              | 14.21 |  462424 |
-| csharp           | 14.51 |  555476 |
-| odin_arena       | 15.15 |  428144 |
-| go               | 19.77 |  204880 |
-| odin             | 28.57 |  394904 |
+| c_apr            |  2.93 |  133824 |
+| java             |  3.24 | 2237080 |
+| rust_typed_arena |  3.63 |  135060 |
+| zig              |  4.29 |  198600 |
+| cpp_boost        |  4.60 |  265760 |
+| odin_arena       |  6.37 |  331276 |
+| odin             |  7.70 |  394604 |
+| c                | 14.41 |  263656 |
+| csharp           | 15.22 |  562860 |
+| rust             | 15.89 |  263924 |
+| cpp              | 17.53 |  462436 |
+| go               | 22.51 |  247128 |
 
 Java GC uses a lot of RAM but it blows the other GC languages out of the water
 here and even beats arena allocators from manual managed languages.

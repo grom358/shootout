@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/grom/dev/shootout/binarytree/csharp/binarytree.csproj": {}
+    "/home/grom/dev/shootout/binary_trees/csharp/binarytree.csproj": {}
   },
   "projects": {
-    "/home/grom/dev/shootout/binarytree/csharp/binarytree.csproj": {
+    "/home/grom/dev/shootout/binary_trees/csharp/binarytree.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/grom/dev/shootout/binarytree/csharp/binarytree.csproj",
+        "projectUniqueName": "/home/grom/dev/shootout/binary_trees/csharp/binarytree.csproj",
         "projectName": "binarytree",
-        "projectPath": "/home/grom/dev/shootout/binarytree/csharp/binarytree.csproj",
+        "projectPath": "/home/grom/dev/shootout/binary_trees/csharp/binarytree.csproj",
         "packagesPath": "/home/grom/.nuget/packages/",
-        "outputPath": "/home/grom/dev/shootout/binarytree/csharp/obj/",
+        "outputPath": "/home/grom/dev/shootout/binary_trees/csharp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/grom/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -35,8 +35,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -51,7 +51,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.7, 7.0.7]"
+              "version": "[8.0.8, 8.0.8]"
             }
           ],
           "frameworkReferences": {
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.107/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.108/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

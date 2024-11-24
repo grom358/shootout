@@ -60,8 +60,8 @@ main :: proc() {
 
 	{
 		stretch_depth := max_depth + 1
-		stretch_tree := binary_tree_bottom_up(stretch_depth)
-		defer binary_tree_free(stretch_tree)
+		stretch_tree := binary_tree_bottom_up(stretch_depth, arena_allocator)
+		defer free_all(arena_allocator)
 		stretch_check := binary_tree_count_nodes(stretch_tree)
 		fmt.printf("stretch tree of depth %d\t check: %d\n", stretch_depth, stretch_check)
 	}
