@@ -19,12 +19,12 @@ main :: proc() {
 
 	for {
 		num_read, err := io.read(stdin, chunk[0:ChunkSize])
-		if err != nil {
-			fmt.println("Error", err)
-			return
-		}
 		if num_read == 0 {
 			break
+		}
+		if err != nil {
+			fmt.println("Error reading:", err)
+			return
 		}
 		append(&buffer, ..chunk[0:num_read])
 	}
