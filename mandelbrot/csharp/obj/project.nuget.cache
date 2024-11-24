@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Z+/OfVj1R1am9Hr7VCVy97KJmi+/Y5yOfvQfrFwnUdh6C07oOjS6n0VXzQCOJUTNnfNBsjCXzt4rxijrVAosKA==",
+  "dgSpecHash": "qfo+vZz7GN5vFxuFhxuq5nP4JQVIVTTnOEc8FFJq9kl2FnhO/iM3LtUx8Cgk5UHBJ54ukEb5rGeq/8iGTab0jw==",
   "success": true,
   "projectFilePath": "/home/grom/dev/shootout/mandelbrot/csharp/mandelbrot.csproj",
   "expectedPackageFiles": [
-    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "1jTYOBXFo6raIdeEB3upV+Q2c30dB6gZhxgB7qTky2TW+O7p4wm6B6fw3GuHHqd1NPnaQpfTSekuDi0/7xddrg==",
+  "dgSpecHash": "b0EA/SkpPLJvwibC9R4OkzKvpk1C4IsfKMPzGwdFxGAevx6Vs8Hw4kfMBhrkVN//YBiRXWlJXWS5M2TPyrvHrg==",
   "success": true,
   "projectFilePath": "/home/grom/dev/shootout/knucleotide/csharp/knucleotide.csproj",
   "expectedPackageFiles": [
-    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
   ],
   "logs": []
 }

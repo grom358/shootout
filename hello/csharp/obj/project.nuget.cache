@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "7RHjl9NQC0LIby0qH/T6Pk0jg/YbjikLgBS8UPBmmA250NOXBViPRC59GfMKdIPO7/r+PuPsi4kLGnawVJw/8w==",
+  "dgSpecHash": "a1SNgiVyqTIhEWP2ATcQm0BqdiuZPt+/AwMrBK6fA+lYqCPP9fuYX5y6oNJqapD6pIA+MugXF3aFZoUfJFuilw==",
   "success": true,
   "projectFilePath": "/home/grom/dev/shootout/hello/csharp/hello.csproj",
   "expectedPackageFiles": [
-    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.7/microsoft.aspnetcore.app.ref.7.0.7.nupkg.sha512"
+    "/home/grom/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
   ],
   "logs": []
 }
