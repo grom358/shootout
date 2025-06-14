@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int min(int a, int b) { return (a < b) ? a : b; }
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
 #define IM 139968
 #define IA 3877
@@ -23,18 +23,19 @@ typedef struct {
 
 void repeat_fasta(const char *header, const char *s, int count) {
   printf("%s", header);
-  int pos = 0;
-  int s_len = strlen(s);
-  char *ss = malloc(s_len + WIDTH);
+  size_t pos = 0;
+  int s_len = (int) strlen(s);
+  char *ss = malloc(s_len * 2);
   memcpy(ss, s, s_len);
   memcpy(ss + s_len, s, s_len);
 
   while (count > 0) {
-    int length = min(WIDTH, count);
-    printf("%.*s\n", length, ss + pos);
+    int length = MIN(WIDTH, count);
+    fwrite(ss + pos, 1, length, stdout);
+    fputc('\n', stdout);
     pos += length;
-    if (pos > strlen(s)) {
-      pos -= strlen(s);
+    if (pos > s_len) {
+      pos -= s_len;
     }
     count -= length;
   }
@@ -56,7 +57,7 @@ void random_fasta(const char *header, AminoAcid *genelist, int size,
   accumulate_probabilities(genelist, size);
   char buf[WIDTH + 2];
   while (count > 0) {
-    int length = min(WIDTH, count);
+    int length = MIN(WIDTH, count);
     for (int pos = 0; pos < length; pos++) {
       double r = random_num();
       for (int i = 0; i < size; i++) {
@@ -67,8 +68,7 @@ void random_fasta(const char *header, AminoAcid *genelist, int size,
       }
     }
     buf[length] = '\n';
-    buf[length + 1] = '\0';
-    printf("%s", buf);
+    fwrite(buf, 1, length + 1, stdout);
     count -= length;
   }
 }
