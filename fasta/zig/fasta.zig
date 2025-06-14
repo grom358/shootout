@@ -68,15 +68,20 @@ fn randomFasta(out: anytype, header: []const u8, genelist: []AminoAcid, repeat: 
     }
 }
 
-fn get_n() !usize {
-    var arg_it = std.process.args();
+fn get_n(allocator: std.mem.Allocator) !usize {
+    var arg_it = try std.process.argsWithAllocator(allocator);
+    defer arg_it.deinit();
     _ = arg_it.skip();
     const arg = arg_it.next() orelse return 10;
-    return try std.fmt.parseInt(u32, arg, 10);
+    return try std.fmt.parseInt(usize, arg, 10);
 }
 
 pub fn main() !void {
-    const n = try get_n();
+    const backingAllocator = std.heap.page_allocator;
+    var arena = std.heap.ArenaAllocator.init(backingAllocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+    const n = try get_n(allocator);
     const stdout = std.io.getStdOut().writer();
     var bufferedWriter = std.io.bufferedWriter(stdout);
     defer bufferedWriter.flush() catch unreachable;
