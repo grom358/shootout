@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -12,14 +11,30 @@ import (
 )
 
 func main() {
-	b, err := io.ReadAll(os.Stdin)
+	if len(os.Args) < 3 {
+		fmt.Fprintln(os.Stderr, "Usage: zscript <input-file> <output-file>")
+		os.Exit(1)
+	}
+
+	inputPath := os.Args[1]
+	outputPath := os.Args[2]
+
+	b, err := os.ReadFile(inputPath)
 	if err != nil {
-		fmt.Println(err)
-		return
+		fmt.Fprintln(os.Stderr, "Error reading input:", err)
+		os.Exit(1)
 	}
 	s := string(b)
+
+	outFile, err := os.Create(outputPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error creating output:", err)
+		os.Exit(1)
+	}
+	defer outFile.Close()
+
 	l := lexer.New(s)
-	writer := bufio.NewWriterSize(os.Stdout, 4096)
+	writer := bufio.NewWriterSize(outFile, 4096)
 	for t := l.NextToken(); t.Type != lexer.Eof; t = l.NextToken() {
 		printToken(writer, t)
 	}

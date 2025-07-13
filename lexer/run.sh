@@ -13,7 +13,7 @@ if [[ ! -s "$RAMDISK/test.csv" ]]; then
 fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" ./helper.sh $RAMDISK/test.zs $lang/zscript $RAMDISK/cmp.csv 2> $RAMDISK/time.txt
+  /usr/bin/time -f "$lang %e %M" $lang/zscript $RAMDISK/test.zs $RAMDISK/cmp.csv 2> $RAMDISK/time.txt
   diff $RAMDISK/test.csv $RAMDISK/cmp.csv > /dev/null
   ret=$?
   rm $RAMDISK/cmp.csv

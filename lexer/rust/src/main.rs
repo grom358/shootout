@@ -1,13 +1,25 @@
 mod lexer;
 
+use std::env;
+use std::fs::File;
 use std::io::{self, BufWriter, Read, Write};
 
 fn main() -> io::Result<()> {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 3 {
+        eprintln!("Usage: {} <input-file> <output-file>", args[0]);
+        std::process::exit(1);
+    }
+
+    let input_path = &args[1];
+    let output_path = &args[2];
+
     let mut buffer = Vec::new();
-    let stdin = io::stdin();
-    stdin.lock().read_to_end(&mut buffer)?;
-    let stdout = io::stdout().lock();
-    let mut writer = BufWriter::new(stdout);
+    File::open(input_path)?.read_to_end(&mut buffer)?;
+
+    let out_file = File::create(output_path)?;
+    let mut writer = BufWriter::new(out_file);
+
     let mut lexer = lexer::Lexer::new(buffer);
     loop {
         let token = lexer.next_token();

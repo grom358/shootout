@@ -1,12 +1,24 @@
 package com.cameronzemek.zscript;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
   public static void main(String[] args) throws IOException {
-    OutputStream out = new BufferedOutputStream(System.out);
-    byte[] bytes = System.in.readAllBytes();
+    if (args.length < 2) {
+      System.err.println("Usage: zscript <input-file> <output-file>");
+      System.exit(1);
+    }
+
+    String inputFile = args[0];
+    String outputFile = args[1];
+
+    byte[] bytes = Files.readAllBytes(Paths.get(inputFile));
     String input = new String(bytes);
+
+    OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
+
     Lexer lexer = new Lexer(input);
     Token token;
     while ((token = lexer.getNext()).getType() != TokenType.EOF) {

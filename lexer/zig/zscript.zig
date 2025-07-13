@@ -6,13 +6,26 @@ pub fn main() !void {
     defer arena.deinit();
     const allocator = arena.allocator();
 
-    const stdout = std.io.getStdOut().writer();
-    const stdin = std.io.getStdIn().reader();
-    var bufferedReader = std.io.bufferedReader(stdin);
-    var in = bufferedReader.reader();
-    var bufferedWriter = std.io.bufferedWriter(stdout);
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
+
+    if (args.len < 3) {
+        std.debug.print("Usage: {s} <input-file> <output-file>\n", .{args[0]});
+        return;
+    }
+
+    const input_path = args[1];
+    const output_path = args[2];
+
+    const input_file = try std.fs.cwd().openFile(input_path, .{});
+    defer input_file.close();
+    const input = try input_file.readToEndAlloc(allocator, 1024 * 1024 * 1024 * 4);
+
+    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
+    defer output_file.close();
+    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
     var out = bufferedWriter.writer();
-    const input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024 * 4);
+
     var lexer = Lexer.init(input);
 
     while (true) {

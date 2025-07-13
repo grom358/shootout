@@ -43,14 +43,34 @@ char *csv_escape(const char *src, int length, int *quote_count) {
   }
 }
 
-int main() {
+int main(int argc, char** argv) {
+  if (argc < 3) {
+    fprintf(stderr, "Usage: %s <input-file> <output-file>\n", argv[0]);
+    return 1;
+  }
+  FILE *file = fopen(argv[1], "rb");
+  if (!file) {
+    perror("fopen");
+    return 1;
+  }
+
   char *input;
   size_t file_size;
-  int ret = readall(stdin, &input, &file_size);
+  int ret = readall(file, &input, &file_size);
+
+  fclose(file);
+
   if (ret != READALL_OK) {
     fprintf(stderr, "Error reading input!");
     return 1;
   }
+
+  FILE *out = fopen(argv[2], "wb");
+  if (!out) {
+    perror("fopen");
+    return 1;
+  }
+
   Lexer *l = lexer_new(input, file_size);
   Token t;
   for (;;) {
@@ -73,12 +93,13 @@ int main() {
       }
       length += quote_count;
     }
-    printf("%zu,%zu,\"%.*s\",\"%s\"\n", t.line_no, t.col_no, length, text,
+    fprintf(out, "%zu,%zu,\"%.*s\",\"%s\"\n", t.line_no, t.col_no, length, text,
            token_type_str(t.type));
     if (quote_count > 0) {
       free(text);
     }
   }
   free(l);
+  fclose(out);
   return 0;
 }

@@ -9,16 +9,27 @@ import "core:strings"
 ChunkSize :: 4096
 
 main :: proc() {
+	if len(os.args) < 3 {
+		fmt.fprintln(os.stderr, "Usage: zscript <input-file> <output-file>")
+        os.exit(1)
+	}
+
+	input_path := os.args[1]
+	output_path := os.args[2]
+
 	buffer := [dynamic]u8{}
 	chunk := [ChunkSize]u8{}
-	stdin := os.stream_from_handle(os.stdin)
-	stdout := os.stream_from_handle(os.stdout)
-	buf_writer: bufio.Writer
-	bufio.writer_init(&buf_writer, stdout)
-	//writer := bufio.writer_to_writer(&buf_writer)
+
+	file_in, in_err := os.open(input_path)
+	defer os.close(file_in)
+	if in_err != nil {
+		fmt.println("Error opening input:", in_err)
+		return
+	}
+	stream_in := os.stream_from_handle(file_in)
 
 	for {
-		num_read, err := io.read(stdin, chunk[0:ChunkSize])
+		num_read, err := io.read(stream_in, chunk[0:ChunkSize])
 		if num_read == 0 {
 			break
 		}
@@ -28,6 +39,19 @@ main :: proc() {
 		}
 		append(&buffer, ..chunk[0:num_read])
 	}
+
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	defer os.close(file_out)
+	if err != nil {
+		fmt.println("Error opening output:", err)
+		return
+	}
+	stream_out := os.stream_from_handle(file_out)
+
+	buf_writer: bufio.Writer
+	bufio.writer_init(&buf_writer, stream_out)
+	//writer := bufio.writer_to_writer(&buf_writer)
+
 	lexer := lexer_init(buffer[:])
 	builder: strings.Builder
 	strings.builder_init_len_cap(&builder, 0, ChunkSize)

@@ -1,7 +1,7 @@
 #!/bin/bash
 verify() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" ./helper.sh example.zs $lang/zscript cmp.csv 2> time.txt
+  /usr/bin/time -f "$lang %e %M" $lang/zscript example.zs cmp.csv 2> time.txt
   diff example.csv cmp.csv > /dev/null
   ret=$?
   rm cmp.csv

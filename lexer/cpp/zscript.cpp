@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <string>
@@ -7,11 +8,31 @@
 
 using namespace std;
 
-int main() {
-  vector<char> bytes{istreambuf_iterator<char>(cin),
+int main(int argc, char** argv) {
+  if (argc < 3) {
+    cerr << "Usage: " << argv[0] << " <input_file> <output_file>\n";
+    return 1;
+  }
+
+  const char *input_path = argv[1];
+  const char *output_path = argv[2];
+
+  ifstream input_file(input_path, ios::binary);
+  if (!input_file) {
+    cerr << "Failed to open input file: " << input_path << "\n";
+    return 1;
+  }
+
+  vector<char> bytes{istreambuf_iterator<char>(input_file),
                      istreambuf_iterator<char>()};
   string input_raw(bytes.begin(), bytes.end());
   string_view input(input_raw);
+
+  ofstream output_file(output_path, ios::binary);
+  if (!output_file) {
+    cerr << "Failed to open output file: " << output_path << "\n";
+    return 1;
+  }
 
   Lexer lexer(input);
   Token token;
@@ -20,7 +41,7 @@ int main() {
     if (token.type == TT_EOF) {
       break;
     }
-    cout << token.line_no << "," << token.col_no << ",\"";
+    output_file << token.line_no << "," << token.col_no << ",\"";
     if (token.type == TT_STRING || token.type == TT_COMMENT) {
       string text(token.text);
       if (token.type == TT_STRING) {
@@ -31,11 +52,11 @@ int main() {
         text.replace(pos, 1, "\"\"");
         pos += 2; // Move past the inserted ""
       }
-      cout << text;
+      output_file << text;
     } else {
-      cout << token.text;
+      output_file << token.text;
     }
-    cout << "\",\"" << tokenTypeName(token.type) << "\"\n";
+    output_file << "\",\"" << tokenTypeName(token.type) << "\"\n";
   }
 
   return 0;
