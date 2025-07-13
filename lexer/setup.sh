@@ -1,12 +1,12 @@
-#!/bin/sh
-if [[ ! -d ramdisk ]]
-then
-  mkdir ramdisk
-  sudo mount -t ramfs -o defaults,user,rw,noatime none ramdisk
-  USER=$(whoami)
-  sudo chown $USER:$USER ramdisk
+#!/bin/bash
+if [[ -z "$RAMDISK" ]]; then
+  echo "Error: RAMDISK is not set" >&2
+  exit 1
 fi
-for ((i = 0; i <= 20000; i++))
-do
-  cat example.zs >> ramdisk/test.zs
-done
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+if [[ ! -s "$RAMDISK/test.zs" ]]; then
+  for ((i = 0; i <= 20000; i++))
+  do
+    cat $SCRIPT_DIR/example.zs >> $RAMDISK/test.zs
+  done
+fi

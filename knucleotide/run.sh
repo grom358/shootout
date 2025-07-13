@@ -1,18 +1,26 @@
 #!/bin/bash
+if [[ -z "$RAMDISK" ]]; then
+  echo "Error: RAMDISK is not set" >&2
+  exit 1
+fi
+if [[ ! -s "$RAMDISK/test25M.txt" ]]; then
+  echo "Error: Missing $RAMDISK/test25M.txt" >&2
+  exit 1
+fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" ./helper.sh ramdisk/input25M.txt $lang/knucleotide cmp25M.txt 2> time.txt
-  diff test25M.txt cmp25M.txt > /dev/null
+  /usr/bin/time -f "$lang %e %M" ./helper.sh $RAMDISK/test25M.txt $lang/knucleotide $RAMDISK/cmp25M.txt 2> $RAMDISK/time.txt
+  diff $RAMDISK/test25M.txt $RAMDISK/cmp25M.txt > /dev/null
   ret=$?
-  rm cmp25M.txt
+  rm $RAMDISK/cmp25M.txt
   if [[ $ret -eq 0 ]]
   then
     echo -en "\e[32m[OK]\e[0m "
   else
     echo -en "\e[31m[FAILED]\e[0m "
   fi
-  cat time.txt
-  rm time.txt
+  cat $RAMDISK/time.txt
+  rm $RAMDISK/time.txt
 }
 
 for lang in $(cat languages.txt)
