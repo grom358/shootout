@@ -9,4 +9,6 @@ if [[ ! -s "$RAMDISK/test.zs" ]]; then
   do
     cat $SCRIPT_DIR/example.zs >> $RAMDISK/test.zs
   done
+  (cd $SCRIPT_DIR/go; ./build.sh)
+  cat $RAMDISK/test.zs | $SCRIPT_DIR/go/zscript > $RAMDISK/test.csv
 fi

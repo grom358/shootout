@@ -1,8 +1,21 @@
-#!/bin/sh
-prog=$@
+#!/bin/bash
+verify() {
+  lang=$1
+  /usr/bin/time -f "$lang %e %M" ./helper.sh example.zs $lang/zscript cmp.csv 2> time.txt
+  diff example.csv cmp.csv > /dev/null
+  ret=$?
+  rm cmp.csv
+  if [[ $ret -eq 0 ]]
+  then
+    echo -en "\e[32m[OK]\e[0m "
+  else
+    echo -en "\e[31m[FAILED]\e[0m "
+  fi
+  cat time.txt
+  rm time.txt
+}
 
-cat example.zs | $prog > cmp.csv
-diff --unified example.csv cmp.csv
-ret=$?
-rm cmp.csv
-exit $ret
+for lang in $(cat languages.txt)
+do
+  verify $lang
+done
