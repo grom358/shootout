@@ -73,7 +73,7 @@ fn readData(allocator: std.mem.Allocator) ![]u8 {
     var in = bufferedReader.reader();
     const input = try in.readAllAlloc(allocator, 1024 * 1024 * 1024);
     defer allocator.free(input);
-    var lines = std.mem.split(u8, input, "\n");
+    var lines = std.mem.splitScalar(u8, input, '\n');
     while (lines.next()) |line| {
         if (std.mem.startsWith(u8, line, ">THREE")) {
             break;
