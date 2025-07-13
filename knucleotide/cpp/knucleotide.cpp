@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iomanip>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <string_view>
@@ -22,7 +23,7 @@ bool sortByValueDesc(const std::pair<std::string_view, int> &a,
   return a.second > b.second;
 }
 
-void printFrequencies(const std::string &data, int k) {
+void printFrequencies(std::ostream &out, const std::string &data, int k) {
   std::unordered_map<std::string_view, int> counts = countNucleotides(data, k);
   double total = 0;
   for (const auto &entry : counts) {
@@ -37,24 +38,44 @@ void printFrequencies(const std::string &data, int k) {
     double frequency = static_cast<double>(entry.second) / total * 100;
     std::string keyUpper = std::string(entry.first);
     transform(keyUpper.begin(), keyUpper.end(), keyUpper.begin(), ::toupper);
-    std::cout << keyUpper << " " << std::fixed << std::setprecision(3)
+    out << keyUpper << " " << std::fixed << std::setprecision(3)
               << frequency << std::endl;
   }
-  std::cout << std::endl;
+  out << std::endl;
 }
 
-void printSampleCount(const std::string &data, const std::string &sample) {
+void printSampleCount(std::ostream &out, const std::string &data, const std::string &sample) {
   int k = sample.length();
   std::unordered_map<std::string_view, int> counts = countNucleotides(data, k);
   std::string sampleLower = sample;
   transform(sampleLower.begin(), sampleLower.end(), sampleLower.begin(),
             ::tolower);
-  std::cout << counts[sampleLower] << "\t" << sample << std::endl;
+  out << counts[sampleLower] << "\t" << sample << std::endl;
 }
 
-int main() {
+int main(int argc, char** argv) {
+  if (argc < 3) {
+    std::cerr << "Usage: " << argv[0] << " [input-file] [output-file]" << std::endl;
+    return 1;
+  }
+
+  const char *input_path = argv[1];
+  const char *output_path = argv[2];
+
+  std::ifstream input_file(input_path, std::ios::binary);
+  if (!input_file) {
+    std::cerr << "Failed to open input file: " << input_path << std::endl;
+    return 1;
+  }
+
+  std::ofstream output_file(output_path, std::ios::binary);
+  if (!output_file) {
+    std::cerr << "Failed to open output file: " << output_path << std::endl;
+    return 1;
+  }
+
   std::string line;
-  while (std::getline(std::cin, line)) {
+  while (std::getline(input_file, line)) {
     if (line.find(">THREE") != std::string::npos) {
       break;
     }
@@ -62,17 +83,17 @@ int main() {
 
   // Extract DNA sequence THREE.
   std::string data;
-  while (std::getline(std::cin, line)) {
+  while (std::getline(input_file, line)) {
     data += line;
   }
 
-  printFrequencies(data, 1);
-  printFrequencies(data, 2);
-  printSampleCount(data, "GGT");
-  printSampleCount(data, "GGTA");
-  printSampleCount(data, "GGTATT");
-  printSampleCount(data, "GGTATTTTAATT");
-  printSampleCount(data, "GGTATTTTAATTTATAGT");
+  printFrequencies(output_file, data, 1);
+  printFrequencies(output_file, data, 2);
+  printSampleCount(output_file, data, "GGT");
+  printSampleCount(output_file, data, "GGTA");
+  printSampleCount(output_file, data, "GGTATT");
+  printSampleCount(output_file, data, "GGTATTTTAATT");
+  printSampleCount(output_file, data, "GGTATTTTAATTTATAGT");
 
   return 0;
 }

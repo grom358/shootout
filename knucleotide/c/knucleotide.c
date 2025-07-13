@@ -80,7 +80,7 @@ void count_nucleotides(const char *data, int k, khash_t(hashmap) * counts) {
   }
 }
 
-void print_frequencies(const char *data, int k) {
+void print_frequencies(FILE *out, const char *data, int k) {
   khash_t(hashmap) *counts = kh_init(hashmap);
   count_nucleotides(data, k, counts);
   int total = 0;
@@ -105,16 +105,16 @@ void print_frequencies(const char *data, int k) {
     key_upper[k] = '\0';
     double frequency =
         (double)sortedPairs->data[i].value / (double)total * 100.0;
-    printf("%s %.3f\n", key_upper, frequency);
+    fprintf(out, "%s %.3f\n", key_upper, frequency);
   }
-  printf("\n");
+  fprintf(out, "\n");
 
   // Clean up
   kh_destroy(hashmap, counts);
   pair_list_destroy(sortedPairs);
 }
 
-void print_sample_count(const char *data, const char *sample) {
+void print_sample_count(FILE *out, const char *data, const char *sample) {
   int k = strlen(sample);
   khash_t(hashmap) *counts = kh_init(hashmap);
   count_nucleotides(data, k, counts);
@@ -127,21 +127,38 @@ void print_sample_count(const char *data, const char *sample) {
 
   khiter_t iter = kh_get(hashmap, counts, sample_lower);
   if (iter == kh_end(counts)) {
-    printf("0\t%s\n", sample);
+    fprintf(out, "0\t%s\n", sample);
   } else {
-    printf("%d\t%s\n", kh_val(counts, iter), sample);
+    fprintf(out, "%d\t%s\n", kh_val(counts, iter), sample);
   }
 
   // Clean up
   kh_destroy(hashmap, counts);
 }
 
-int main() {
+int main(int argc, char** argv) {
+  if (argc != 3) {
+    fprintf(stderr, "Usage: %s <input-file> <output-file>\n", argv[0]);
+    return 1;
+  }
+
+  FILE *in = fopen(argv[1], "rb");
+  if (!in) {
+    fprintf(stderr, "Error opening input: %s\n", strerror(errno));
+    return 1;
+  }
+
+  FILE *out = fopen(argv[2], "wb");
+  if (!out) {
+    fprintf(stderr, "Error opening output: %s\n", strerror(errno));
+    return 1;
+  }
+
   const int max_line_length = 100;
   char *line = (char *)malloc(max_line_length);
 
   // Read until the header line ">THREE"
-  while (fgets(line, max_line_length, stdin) != NULL) {
+  while (fgets(line, max_line_length, in) != NULL) {
     if (strstr(line, ">THREE") != NULL) {
       break;
     }
@@ -150,9 +167,9 @@ int main() {
   // Read the DNA sequence
   char *input;
   size_t file_size;
-  int ret = readall(stdin, &input, &file_size);
+  int ret = readall(in, &input, &file_size);
   if (ret != READALL_OK) {
-    fprintf(stderr, "Error reading input!");
+    fprintf(stderr, "Error reading input!\n");
     exit(EXIT_FAILURE);
   }
   char *data = calloc(file_size, sizeof(char));
@@ -163,16 +180,18 @@ int main() {
     }
   }
 
-  print_frequencies(data, 1);
-  print_frequencies(data, 2);
-  print_sample_count(data, "GGT");
-  print_sample_count(data, "GGTA");
-  print_sample_count(data, "GGTATT");
-  print_sample_count(data, "GGTATTTTAATT");
-  print_sample_count(data, "GGTATTTTAATTTATAGT");
+  print_frequencies(out, data, 1);
+  print_frequencies(out, data, 2);
+  print_sample_count(out, data, "GGT");
+  print_sample_count(out, data, "GGTA");
+  print_sample_count(out, data, "GGTATT");
+  print_sample_count(out, data, "GGTATTTTAATT");
+  print_sample_count(out, data, "GGTATTTTAATTTATAGT");
 
   free(line);
   free(data);
+  fclose(in);
+  fclose(out);
 
   return 0;
 }

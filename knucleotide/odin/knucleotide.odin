@@ -25,7 +25,7 @@ pair_less :: proc(i, j: Pair) -> bool {
 	return j.value < i.value
 }
 
-print_frequencies :: proc(data: string, k: int) {
+print_frequencies :: proc(writer: os.Handle, data: string, k: int) {
 	counts := count_nucleotides(data, k)
 	defer delete(counts)
 	total := 0
@@ -44,21 +44,21 @@ print_frequencies :: proc(data: string, k: int) {
 	for pair in sorted_pairs {
 		frequency := f64(pair.value) / f64(total) * 100.0
 		key_upper := strings.to_upper(pair.key, context.temp_allocator)
-		fmt.printf("%s %.3f\n", key_upper, frequency)
+		fmt.fprintf(writer, "%s %.3f\n", key_upper, frequency)
 	}
-	fmt.printf("\n")
+	fmt.fprintf(writer, "\n")
 }
 
-print_sample_count :: proc(data: string, sample: string) {
+print_sample_count :: proc(writer: os.Handle, data: string, sample: string) {
 	k := len(sample)
 	counts := count_nucleotides(data, k)
 	defer delete(counts)
 	sample_lower := strings.to_lower(sample)
 	count, found := counts[sample_lower]
 	if !found {
-		fmt.printf("0\t%s\n", sample)
+		fmt.fprintf(writer, "0\t%s\n", sample)
 	} else {
-		fmt.printf("%d\t%s\n", count, sample)
+		fmt.fprintf(writer, "%d\t%s\n", count, sample)
 	}
 }
 
@@ -66,15 +66,36 @@ THREE :: ">THREE"
 BYTES_PER_MB :: 1024 * 1024
 
 main :: proc() {
+	if len(os.args) != 3 {
+		fmt.fprintln(os.stderr, "Usage: knucleotide [input-file] [output-file]")
+		os.exit(1)
+	}
+
+	input_path := os.args[1]
+	output_path := os.args[2]
+
+	file_in, in_err := os.open(input_path)
+	defer os.close(file_in)
+	if in_err != nil {
+		fmt.println("Error opening input:", in_err)
+		return
+	}
+
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	defer os.close(file_out)
+	if err != nil {
+		fmt.println("Error opening output:", err)
+		return
+	}
+
 	builder: strings.Builder
 	strings.builder_init_len_cap(&builder, 0, 128 * BYTES_PER_MB)
 	defer strings.builder_destroy(&builder)
 	data: string
 	{
-		stdin := os.stream_from_handle(os.stdin)
 		buf_reader: bufio.Reader
 		buffer := [100]u8{}
-		bufio.reader_init_with_buf(&buf_reader, stdin, buffer[0:])
+		bufio.reader_init_with_buf(&buf_reader, os.stream_from_handle(file_in), buffer[0:])
 
 		for {
 			line_bytes, err := bufio.reader_read_slice(&buf_reader, '\n')
@@ -98,11 +119,11 @@ main :: proc() {
 		data = strings.to_string(builder)
 	}
 
-	print_frequencies(data, 1)
-	print_frequencies(data, 2)
-	print_sample_count(data, "GGT")
-	print_sample_count(data, "GGTA")
-	print_sample_count(data, "GGTATT")
-	print_sample_count(data, "GGTATTTTAATT")
-	print_sample_count(data, "GGTATTTTAATTTATAGT")
+	print_frequencies(file_out, data, 1)
+	print_frequencies(file_out, data, 2)
+	print_sample_count(file_out, data, "GGT")
+	print_sample_count(file_out, data, "GGTA")
+	print_sample_count(file_out, data, "GGTATT")
+	print_sample_count(file_out, data, "GGTATTTTAATT")
+	print_sample_count(file_out, data, "GGTATTTTAATTTATAGT")
 }

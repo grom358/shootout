@@ -9,8 +9,8 @@ if [[ ! -s "$RAMDISK/test25M.txt" ]]; then
 fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" ./helper.sh $RAMDISK/test25M.txt $lang/knucleotide $RAMDISK/cmp25M.txt 2> $RAMDISK/time.txt
-  diff $RAMDISK/test25M.txt $RAMDISK/cmp25M.txt > /dev/null
+  /usr/bin/time -f "$lang %e %M" $lang/knucleotide $RAMDISK/test25M.txt $RAMDISK/cmp25M.txt 2> $RAMDISK/time.txt
+  diff test25M.txt $RAMDISK/cmp25M.txt > /dev/null
   ret=$?
   rm $RAMDISK/cmp25M.txt
   if [[ $ret -eq 0 ]]

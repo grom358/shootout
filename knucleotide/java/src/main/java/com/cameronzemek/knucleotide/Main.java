@@ -14,7 +14,7 @@ public class Main {
     return counts;
   }
 
-  static void printFrequencies(String data, int k) {
+  static void printFrequencies(PrintWriter out, String data, int k) {
     Map<String, Integer> counts = countNucleotides(data, k);
     double total = 0;
     for (int value : counts.values()) {
@@ -26,22 +26,30 @@ public class Main {
         (entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
     for (Map.Entry<String, Integer> entry : entryList) {
       double frequency = entry.getValue() / total;
-      System.out.println(entry.getKey().toUpperCase() + " " +
+      out.println(entry.getKey().toUpperCase() + " " +
                          String.format("%.3f", frequency * 100));
     }
-    System.out.println();
+    out.println();
   }
 
-  static void printSampleCount(String data, String sample) {
+  static void printSampleCount(PrintWriter out, String data, String sample) {
     int k = sample.length();
     Map<String, Integer> counts = countNucleotides(data, k);
-    System.out.println(counts.getOrDefault(sample.toLowerCase(), 0) + "\t" +
+    out.println(counts.getOrDefault(sample.toLowerCase(), 0) + "\t" +
                        sample);
   }
 
   public static void main(String[] args) throws IOException {
+    if (args.length != 2) {
+      System.err.println("Usage: knucleotide [input-file] [output-file]");
+      System.exit(1);
+    }
+
+    String inputFile = args[0];
+    String outputFile = args[1];
+
     try (BufferedReader reader =
-             new BufferedReader(new InputStreamReader(System.in))) {
+             new BufferedReader(new FileReader(inputFile))) {
 
       String line;
       while ((line = reader.readLine()) != null) {
@@ -57,13 +65,15 @@ public class Main {
       }
 
       String data = sb.toString();
-      printFrequencies(data, 1);
-      printFrequencies(data, 2);
-      printSampleCount(data, "GGT");
-      printSampleCount(data, "GGTA");
-      printSampleCount(data, "GGTATT");
-      printSampleCount(data, "GGTATTTTAATT");
-      printSampleCount(data, "GGTATTTTAATTTATAGT");
+      try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(outputFile)))) {
+        printFrequencies(out, data, 1);
+        printFrequencies(out, data, 2);
+        printSampleCount(out, data, "GGT");
+        printSampleCount(out, data, "GGTA");
+        printSampleCount(out, data, "GGTATT");
+        printSampleCount(out, data, "GGTATTTTAATT");
+        printSampleCount(out, data, "GGTATTTTAATTTATAGT");
+      }
     }
   }
 }

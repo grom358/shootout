@@ -13,29 +13,36 @@ class Program {
     return counts;
   }
 
-  static void PrintFrequencies(string data, int k) {
+  static void PrintFrequencies(TextWriter writer, string data, int k) {
     var counts = CountNucleotides(data, k);
     double total = counts.Values.Sum();
 
     foreach (var entry in counts.OrderByDescending(e => e.Value)) {
       double frequency = (double)entry.Value / total * 100;
-      Console.WriteLine($"{entry.Key.ToUpper()} {frequency:F3}");
+      writer.WriteLine($"{entry.Key.ToUpper()} {frequency:F3}");
     }
-    Console.WriteLine();
+    writer.WriteLine();
   }
 
-  static void PrintSampleCount(string data, string sample) {
+  static void PrintSampleCount(TextWriter writer, string data, string sample) {
     int k = sample.Length;
     var counts = CountNucleotides(data, k);
     string sampleLower = sample.ToLower();
     int count = counts.ContainsKey(sampleLower) ? counts[sampleLower] : 0;
-    Console.WriteLine($"{count}\t{sample}");
+    writer.WriteLine($"{count}\t{sample}");
   }
 
-  static void Main() {
+  static void Main(string[] args) {
+    if (args.Length != 2) {
+      Console.Error.WriteLine("Usage: knucleotide [input-file] [output-file]");
+      Environment.Exit(1);
+    }
+
+    string inputFile = args[0];
+    string outputFile = args[1];
+
     string data;
-    using (var reader = new StreamReader(Console.OpenStandardInput(),
-                                         Console.InputEncoding)) {
+    using (var reader = new StreamReader(inputFile)) {
       string ? line;
       while ((line = reader.ReadLine()) != null) {
         if (line.StartsWith(">THREE")) {
@@ -49,12 +56,15 @@ class Program {
       data = sb.ToString();
     }
 
-    PrintFrequencies(data, 1);
-    PrintFrequencies(data, 2);
-    PrintSampleCount(data, "GGT");
-    PrintSampleCount(data, "GGTA");
-    PrintSampleCount(data, "GGTATT");
-    PrintSampleCount(data, "GGTATTTTAATT");
-    PrintSampleCount(data, "GGTATTTTAATTTATAGT");
+    using (var writer = new StreamWriter(outputFile)) {
+      PrintFrequencies(writer, data, 1);
+      PrintFrequencies(writer, data, 2);
+      PrintSampleCount(writer, data, "GGT");
+      PrintSampleCount(writer, data, "GGTA");
+      PrintSampleCount(writer, data, "GGTATT");
+      PrintSampleCount(writer, data, "GGTATTTTAATT");
+      PrintSampleCount(writer, data, "GGTATTTTAATTTATAGT");
+      writer.Flush();
+    }
   }
 }
