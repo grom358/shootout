@@ -20,7 +20,7 @@ $ ./generate.sh
 ```
 
 ## Results
-Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+Tested on
 
 Legend:
 * Time = Total seconds
@@ -63,20 +63,28 @@ Hello World!
 EOF
 cat > $name/run.sh << 'EOF'
 #!/bin/bash
+if [[ -z "$RAMDISK" ]]; then
+  echo "Error: RAMDISK is not set" >&2
+  exit 1
+fi
+if [[ ! -s "$RAMDISK/test.txt" ]]; then
+  echo "Error: Missing $RAMDISK/test.txt" >&2
+  exit 1
+fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/NAME 2> time.txt > cmp.txt
-  diff test.txt cmp.txt > /dev/null
+  /usr/bin/time -f "$lang %e %M" $lang/NAME 2> $RAMDISK/time.txt > $RAMDISK/cmp.txt
+  diff $RAMDISK/test.txt $RAMDISK/cmp.txt > /dev/null
   ret=$?
-  rm cmp.txt
+  rm $RAMDISK/cmp.txt
   if [[ $ret -eq 0 ]]
   then
     echo -en "\e[32m[OK]\e[0m "
   else
     echo -en "\e[31m[FAILED]\e[0m "
   fi
-  cat time.txt
-  rm time.txt
+  cat $RAMDISK/time.txt
+  rm $RAMDISK/time.txt
 }
 
 for lang in $(cat languages.txt)
@@ -251,7 +259,7 @@ EOF
 lang=csharp
 mkdir $name/$lang
 dotnet new console -o $name/$lang -n $name
-(cd $name/$lang; ln -s bin/Release/net7.0/$name $name)
+(cd $name/$lang; ln -s bin/Release/net9.0/$name $name)
 cat > $name/$lang/build.sh << EOF
 #!/bin/sh
 dotnet build -c Release
