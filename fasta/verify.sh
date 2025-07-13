@@ -1,7 +1,7 @@
 #!/bin/bash
 verify() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/fasta 1000 2> time.txt > cmp1000.txt
+  /usr/bin/time -f "$lang %e %M" $lang/fasta 1000 cmp1000.txt 2> time.txt
   diff test1000.txt cmp1000.txt > /dev/null
   ret=$?
   rm cmp1000.txt

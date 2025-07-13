@@ -68,22 +68,26 @@ fn randomFasta(out: anytype, header: []const u8, genelist: []AminoAcid, repeat: 
     }
 }
 
-fn get_n(allocator: std.mem.Allocator) !usize {
-    var arg_it = try std.process.argsWithAllocator(allocator);
-    defer arg_it.deinit();
-    _ = arg_it.skip();
-    const arg = arg_it.next() orelse return 10;
-    return try std.fmt.parseInt(usize, arg, 10);
-}
-
 pub fn main() !void {
     const backingAllocator = std.heap.page_allocator;
     var arena = std.heap.ArenaAllocator.init(backingAllocator);
     defer arena.deinit();
     const allocator = arena.allocator();
-    const n = try get_n(allocator);
-    const stdout = std.io.getStdOut().writer();
-    var bufferedWriter = std.io.bufferedWriter(stdout);
+
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
+
+    if (args.len != 3) {
+        std.debug.print("Usage: {s} [size] [output-file]", .{args[0]});
+        return;
+    }
+
+    const n = try std.fmt.parseInt(usize, args[1], 10);
+
+    const output_path = args[2];
+    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
+    defer output_file.close();
+    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
     defer bufferedWriter.flush() catch unreachable;
     const out = bufferedWriter.writer();
 

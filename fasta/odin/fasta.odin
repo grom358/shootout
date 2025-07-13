@@ -75,8 +75,8 @@ random_fasta :: proc(writer: ^bufio.Writer, header: string, genelist: []AminoAci
 }
 
 main :: proc() {
-	if len(os.args) != 2 {
-		fmt.fprintf(os.stderr, "Usage: fasta [size]\n")
+	if len(os.args) != 3 {
+		fmt.fprintf(os.stderr, "Usage: fasta [size] [output-file]\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])
@@ -84,9 +84,17 @@ main :: proc() {
 		fmt.fprintf(os.stderr, "Invalid size!\n")
 		os.exit(1)
 	}
-	stdout := os.stream_from_handle(os.stdout)
+
+	output_path := os.args[2]
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	defer os.close(file_out)
+	if err != nil {
+		fmt.fprintln(os.stderr, "Error opening output:", err)
+		return
+	}
+	out := os.stream_from_handle(file_out)
 	buf_writer: bufio.Writer
-	bufio.writer_init(&buf_writer, stdout)
+	bufio.writer_init(&buf_writer, out)
 
 	alu ::
 		"GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG" +

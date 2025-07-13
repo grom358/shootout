@@ -1,4 +1,5 @@
 use std::io::{self, BufWriter, Write};
+use std::fs::File;
 
 fn min(a: usize, b: usize) -> usize {
     if a < b {
@@ -94,14 +95,16 @@ fn random_fasta<W: Write>(
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    if args.len() != 2 {
-        eprintln!("Usage: fasta [size]");
+    if args.len() != 3 {
+        eprintln!("Usage: fasta [size] [output-file]");
         std::process::exit(1);
     }
 
     let n: usize = args[1].parse().unwrap();
-    let stdout = io::stdout().lock();
-    let mut writer = BufWriter::new(stdout);
+
+    let output_path = &args[2];
+    let out_file = File::create(output_path)?;
+    let mut writer = BufWriter::new(out_file);
 
     const ALU: &str = "GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG\
                        GGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGA\

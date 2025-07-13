@@ -10,8 +10,8 @@ import (
 var out *bufio.Writer
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: fasta [size]")
+	if len(os.Args) != 3 {
+		fmt.Fprintln(os.Stderr, "Usage: fasta [size] [output-file]")
 		os.Exit(1)
 	}
 
@@ -22,7 +22,15 @@ func main() {
 	}
 	n := int(N)
 
-	out = bufio.NewWriter(os.Stdout)
+	outputPath := os.Args[2]
+	outFile, err := os.Create(outputPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error creating output:", err)
+		os.Exit(1)
+	}
+	defer outFile.Close()
+
+	out = bufio.NewWriter(outFile)
 	defer out.Flush()
 	alu := []byte(
 		"GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG" +

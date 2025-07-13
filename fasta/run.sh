@@ -3,13 +3,13 @@ if [[ -z "$RAMDISK" ]]; then
   echo "Error: RAMDISK is not set" >&2
   exit 1
 fi
-if [[ ! -s "$RAMDISK" ]]; then
+if [[ ! -s "$RAMDISK/test25M.txt" ]]; then
   echo "Error: Missing $RAMDISK/test25M.txt" >&2
   exit 1
 fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/fasta 25000000 2> $RAMDISK/time.txt > $RAMDISK/cmp25M.txt
+  /usr/bin/time -f "$lang %e %M" $lang/fasta 25000000 $RAMDISK/cmp25M.txt 2> $RAMDISK/time.txt
   diff $RAMDISK/test25M.txt $RAMDISK/cmp25M.txt > /dev/null
   ret=$?
   rm $RAMDISK/cmp25M.txt

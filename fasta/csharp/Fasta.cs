@@ -36,8 +36,8 @@ class Fasta {
     }
   }
 
-  public void RandomFasta(string header, AminoAcid[] genelist, int count) {
-    Console.WriteLine(header);
+  public void RandomFasta(TextWriter writer, string header, AminoAcid[] genelist, int count) {
+    writer.WriteLine(header);
     AccumulateProbabilities(genelist);
     StringBuilder sb = new StringBuilder(WIDTH);
     while (count > 0) {
@@ -51,21 +51,21 @@ class Fasta {
           }
         }
       }
-      Console.WriteLine(sb.ToString());
+      writer.WriteLine(sb.ToString());
       sb.Clear();
       count -= length;
     }
   }
 
-  public void RepeatFasta(string header, string s, int count) {
-    Console.WriteLine(header);
+  public void RepeatFasta(TextWriter writer, string header, string s, int count) {
+    writer.WriteLine(header);
     int pos = 0;
     int sLen = s.Length;
     string ss = s + s;
 
     while (count > 0) {
       int length = Math.Min(WIDTH, count);
-      Console.WriteLine(ss.Substring(pos, length));
+      writer.WriteLine(ss.Substring(pos, length));
       pos += length;
       if (pos > sLen) {
         pos -= sLen;

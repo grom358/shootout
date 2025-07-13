@@ -1,15 +1,18 @@
 package com.cameronzemek.fasta;
 
+import java.io.PrintStream;
+
 public class Main {
-  public static void main(String[] args) {
-    if (args.length != 1) {
-      System.err.println("Usage: fasta [size]");
+  public static void main(String[] args) throws Exception {
+    if (args.length != 2) {
+      System.err.println("Usage: fasta [size] [output-file]");
       System.exit(1);
     }
 
     int n = Integer.parseInt(args[0]);
 
-    BufferedPrintStream out = new BufferedPrintStream(System.out);
+    String outputFile = args[1];
+    BufferedPrintStream out = new BufferedPrintStream(new PrintStream(outputFile));
 
     Fasta f = new Fasta(out);
 
