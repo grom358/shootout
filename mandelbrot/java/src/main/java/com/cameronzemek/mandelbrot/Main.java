@@ -5,7 +5,7 @@ import java.io.*;
 public class Main {
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
-      System.err.println("Usage: mandelbrot [size] [output-file]");
+      System.err.println("Usage: mandelbrot <size> <output.pbm>");
       System.exit(1);
     }
     int w, h, bitNum = 0;

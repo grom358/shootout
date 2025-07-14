@@ -5,12 +5,13 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <system_error>
 
 using namespace std;
 
 int main(int argc, char** argv) {
-  if (argc < 3) {
-    cerr << "Usage: " << argv[0] << " <input_file> <output_file>\n";
+  if (argc != 3) {
+    cerr << "Usage: " << argv[0] << " <input.zs> <output.csv>\n";
     return 1;
   }
 
@@ -19,7 +20,8 @@ int main(int argc, char** argv) {
 
   ifstream input_file(input_path, ios::binary);
   if (!input_file) {
-    cerr << "Failed to open input file: " << input_path << "\n";
+    error_code ec(errno, generic_category());
+    cerr << "Failed to open input file: '" << input_path << "': " << ec.message() << endl;
     return 1;
   }
 
@@ -30,7 +32,8 @@ int main(int argc, char** argv) {
 
   ofstream output_file(output_path, ios::binary);
   if (!output_file) {
-    cerr << "Failed to open output file: " << output_path << "\n";
+    error_code ec(errno, generic_category());
+    cerr << "Failed to open output file: '" << output_path << "': " << ec.message() << endl;
     return 1;
   }
 

@@ -9,7 +9,7 @@ import (
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Fprintln(os.Stderr, "Usage: mandelbrot [size] [output-file]")
+		fmt.Fprintln(os.Stderr, "Usage: mandelbrot <size> <output.pbm>")
 		os.Exit(1)
 	}
 

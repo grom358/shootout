@@ -5,7 +5,7 @@ use std::fs::File;
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
     if args.len() != 3 {
-        eprintln!("Usage: mandelbrot [size] [output-file]");
+        eprintln!("Usage: mandelbrot <size> <output.pbm>");
         std::process::exit(1);
     }
 

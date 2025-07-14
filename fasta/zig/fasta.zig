@@ -78,8 +78,8 @@ pub fn main() !void {
     defer std.process.argsFree(allocator, args);
 
     if (args.len != 3) {
-        std.debug.print("Usage: {s} [size] [output-file]", .{args[0]});
-        return;
+        std.debug.print("Usage: {s} <size> <output.txt>", .{args[0]});
+        std.process.exit(1);
     }
 
     const n = try std.fmt.parseInt(usize, args[1], 10);

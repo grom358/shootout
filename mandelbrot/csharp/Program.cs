@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
 if (args.Length != 2) {
-  Console.Error.WriteLine("Usage: mandelbrot [size] [output-file]");
-  return;
+  Console.Error.WriteLine("Usage: mandelbrot <size> <output.pbm>");
+  Environment.Exit(1);
 }
 
 int w, h, bitNum = 0;

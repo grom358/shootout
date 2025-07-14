@@ -9,7 +9,7 @@ pub fn main() !void {
     defer std.process.argsFree(allocator, args);
 
     if (args.len != 3) {
-        std.debug.print("Usage: {s} [size] [output-file]\n", .{args[0]});
+        std.debug.print("Usage: {s} <size> <output.pbm>\n", .{args[0]});
         return error.InvalidUsage;
     }
 

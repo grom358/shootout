@@ -5,7 +5,7 @@ import java.io.PrintStream;
 public class Main {
   public static void main(String[] args) throws Exception {
     if (args.length != 2) {
-      System.err.println("Usage: fasta [size] [output-file]");
+      System.err.println("Usage: fasta <size> <output.txt>");
       System.exit(1);
     }
 

@@ -6,6 +6,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <system_error>
 
 std::unordered_map<std::string_view, int>
 countNucleotides(const std::string_view &data, int k) {
@@ -55,7 +56,7 @@ void printSampleCount(std::ostream &out, const std::string &data, const std::str
 
 int main(int argc, char** argv) {
   if (argc < 3) {
-    std::cerr << "Usage: " << argv[0] << " [input-file] [output-file]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <input.txt> <output.txt>" << std::endl;
     return 1;
   }
 
@@ -64,13 +65,15 @@ int main(int argc, char** argv) {
 
   std::ifstream input_file(input_path, std::ios::binary);
   if (!input_file) {
-    std::cerr << "Failed to open input file: " << input_path << std::endl;
+    std::error_code ec(errno, std::generic_category());
+    std::cerr << "Failed to open input file '" << input_path << "': " << ec.message() << std::endl;
     return 1;
   }
 
   std::ofstream output_file(output_path, std::ios::binary);
   if (!output_file) {
-    std::cerr << "Failed to open output file: " << output_path << std::endl;
+    std::error_code ec(errno, std::generic_category());
+    std::cerr << "Failed to open output file '" << output_path << "': " << ec.message() << std::endl;
     return 1;
   }
 

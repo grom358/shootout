@@ -1,8 +1,8 @@
 ﻿using Zscript;
 
-if (args.Length < 2) {
-  Console.Error.WriteLine("Usage: zscript <input-file> <output-file>");
-  return;
+if (args.Length != 2) {
+  Console.Error.WriteLine("Usage: zscript <input.zs> <output.csv>");
+  Environment.Exit(1);
 }
 
 string inputPath = args[0];

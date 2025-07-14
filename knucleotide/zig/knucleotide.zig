@@ -87,7 +87,7 @@ pub fn main() !void {
     defer std.process.argsFree(allocator, args);
 
     if (args.len != 3) {
-        std.debug.print("Usage: {s} [input-file] [output-file]\n", .{args[0]});
+        std.debug.print("Usage: {s} <input.txt> <output.txt>\n", .{args[0]});
         return error.InvalidUsage;
     }
 

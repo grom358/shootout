@@ -38,7 +38,7 @@ binary_tree_free :: proc(bt: ^BinaryTree, allocator := context.allocator) {
 
 main :: proc() {
 	if len(os.args) != 2 {
-		fmt.fprintf(os.stderr, "Usage: binarytree [depth]\n")
+		fmt.fprintf(os.stderr, "Usage: binarytree <depth>\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])

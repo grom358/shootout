@@ -1,10 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <system_error>
 
 int main(int argc, char **argv) {
   if (argc != 3) {
-    std::cerr << "Usage: mandelbrot [size] [output-file]\n";
+    std::cerr << "Usage: mandelbrot <size> <output.pbm>\n";
     return 1;
   }
 
@@ -18,7 +19,8 @@ int main(int argc, char **argv) {
 
   std::ofstream out(argv[2]);
   if (!out) {
-    std::cerr << "Error opening file: " << argv[2] << std::endl;
+    std::error_code ec(errno, std::generic_category());
+    std::cerr << "Error opening file '" << argv[2] << "': " << ec.message() << std::endl;
     return 1;
   }
 

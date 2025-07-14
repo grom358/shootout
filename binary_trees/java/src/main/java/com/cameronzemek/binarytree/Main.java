@@ -3,7 +3,7 @@ package com.cameronzemek.binarytree;
 public class Main {
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
-      System.err.println("Usage: binarytree [depth]");
+      System.err.println("Usage: binarytree <depth>");
       System.exit(1);
     }
     int N = Integer.parseInt(args[0]);

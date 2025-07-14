@@ -34,7 +34,7 @@ class Program {
 
   static void Main(string[] args) {
     if (args.Length != 2) {
-      Console.Error.WriteLine("Usage: knucleotide [input-file] [output-file]");
+      Console.Error.WriteLine("Usage: knucleotide <input.txt> <output.txt>");
       Environment.Exit(1);
     }
 

@@ -28,8 +28,8 @@ public class BinaryTree {
 class Program {
   static void Main(string[] args) {
     if (args.Length != 1 || !int.TryParse(args[0], out int depth)) {
-      Console.WriteLine("Usage: binarytree [depth]");
-      return;
+      Console.Error.WriteLine("Usage: binarytree <depth>");
+      Environment.Exit(1);
     }
 
     int N = int.Parse(args[0]);

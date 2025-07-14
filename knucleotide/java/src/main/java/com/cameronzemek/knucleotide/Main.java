@@ -41,7 +41,7 @@ public class Main {
 
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
-      System.err.println("Usage: knucleotide [input-file] [output-file]");
+      System.err.println("Usage: knucleotide <input.txt> <output.txt>");
       System.exit(1);
     }
 

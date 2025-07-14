@@ -1,10 +1,11 @@
+#include <errno.h>
 #include <complex.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
   if (argc != 3) {
-    fprintf(stderr, "Usage: %s [size] [output-file]\n", argv[0]);
+    fprintf(stderr, "Usage: %s <size> <output.pbm>\n", argv[0]);
     return 1;
   }
 
@@ -18,7 +19,7 @@ int main(int argc, char **argv) {
   const char *output_path = argv[2];
   FILE *out = fopen(output_path, "wb");
   if (!out) {
-    perror("Failed to open output file");
+    fprintf(stderr, "Failed to open output file '%s': %s\n", argv[2], strerror(errno));
     return 1;
   }
 

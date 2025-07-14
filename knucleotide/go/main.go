@@ -69,7 +69,7 @@ func printSampleCount(writer *bufio.Writer, data string, sample string) {
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Fprintln(os.Stderr, "Usage: knucleotide [input-file] [output-file]")
+		fmt.Fprintln(os.Stderr, "Usage: knucleotide <input.txt> <output.txt>")
 		os.Exit(1)
 	}
 

@@ -9,9 +9,9 @@ pub fn main() !void {
     const args = try std.process.argsAlloc(allocator);
     defer std.process.argsFree(allocator, args);
 
-    if (args.len < 3) {
-        std.debug.print("Usage: {s} <input-file> <output-file>\n", .{args[0]});
-        return;
+    if (args.len != 3) {
+        std.debug.print("Usage: {s} <input.zs> <output.csv>\n", .{args[0]});
+        std.process.exit(1);
     }
 
     const input_path = args[1];

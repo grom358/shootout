@@ -132,7 +132,7 @@ func (system *NBodySystem) Energy() float64 {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: nbody [steps]")
+		fmt.Fprintln(os.Stderr, "Usage: nbody <num_steps>")
 		os.Exit(1)
 	}
 

@@ -33,7 +33,7 @@ func CreateBottomUp(depth uint) *BinaryTree {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: binarytree [depth]")
+		fmt.Fprintln(os.Stderr, "Usage: binarytree <depth>")
 		os.Exit(1)
 	}
 

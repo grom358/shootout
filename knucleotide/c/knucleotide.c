@@ -138,19 +138,13 @@ void print_sample_count(FILE *out, const char *data, const char *sample) {
 
 int main(int argc, char** argv) {
   if (argc != 3) {
-    fprintf(stderr, "Usage: %s <input-file> <output-file>\n", argv[0]);
+    fprintf(stderr, "Usage: %s <input.txt> <output.txt>\n", argv[0]);
     return 1;
   }
 
   FILE *in = fopen(argv[1], "rb");
   if (!in) {
-    fprintf(stderr, "Error opening input: %s\n", strerror(errno));
-    return 1;
-  }
-
-  FILE *out = fopen(argv[2], "wb");
-  if (!out) {
-    fprintf(stderr, "Error opening output: %s\n", strerror(errno));
+    fprintf(stderr, "Error opening input '%s': %s\n", argv[1], strerror(errno));
     return 1;
   }
 
@@ -170,7 +164,8 @@ int main(int argc, char** argv) {
   int ret = readall(in, &input, &file_size);
   if (ret != READALL_OK) {
     fprintf(stderr, "Error reading input!\n");
-    exit(EXIT_FAILURE);
+    fclose(in);
+    return 1;
   }
   char *data = calloc(file_size, sizeof(char));
   int pos = 0;
@@ -178,6 +173,13 @@ int main(int argc, char** argv) {
     if (input[i] != '\n') {
       data[pos++] = input[i];
     }
+  }
+
+  FILE *out = fopen(argv[2], "wb");
+  if (!out) {
+    fprintf(stderr, "Error opening output '%s': %s\n", argv[2], strerror(errno));
+    fclose(in);
+    return 1;
   }
 
   print_frequencies(out, data, 1);

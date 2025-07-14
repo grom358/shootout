@@ -159,7 +159,7 @@ impl NBodySystem {
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
-        eprintln!("Usage: binarytree [depth]");
+        eprintln!("Usage: nbody <num_steps>");
         std::process::exit(1);
     }
     let n: i32 = args[1].parse().unwrap();

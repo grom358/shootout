@@ -67,7 +67,7 @@ BYTES_PER_MB :: 1024 * 1024
 
 main :: proc() {
 	if len(os.args) != 3 {
-		fmt.fprintln(os.stderr, "Usage: knucleotide [input-file] [output-file]")
+		fmt.fprintln(os.stderr, "Usage: knucleotide <input.txt> <output.txt>")
 		os.exit(1)
 	}
 
@@ -78,14 +78,14 @@ main :: proc() {
 	defer os.close(file_in)
 	if in_err != nil {
 		fmt.println("Error opening input:", in_err)
-		return
+		os.exit(1)
 	}
 
 	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
 	defer os.close(file_out)
 	if err != nil {
 		fmt.println("Error opening output:", err)
-		return
+		os.exit(1)
 	}
 
 	builder: strings.Builder

@@ -122,15 +122,20 @@ fn advance(system: []Body, dt: f64) void {
     }
 }
 
-fn get_n() !usize {
-    var arg_it = std.process.args();
-    _ = arg_it.skip();
-    const arg = arg_it.next() orelse return 10;
-    return try std.fmt.parseInt(u32, arg, 10);
-}
-
 pub fn main() !void {
-    const n = try get_n();
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
+
+    if (args.len != 2) {
+        std.debug.print("Usage: {s} <num_steps>", .{args[0]});
+        std.process.exit(1);
+    }
+
+    const n = try std.fmt.parseInt(u32, args[1], 10);
     const dt = 0.01;
     const stdout = std.io.getStdOut().writer();
 

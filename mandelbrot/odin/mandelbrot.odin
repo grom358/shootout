@@ -7,7 +7,7 @@ import "core:os"
 
 main :: proc() {
 	if len(os.args) != 3 {
-		fmt.fprintf(os.stderr, "Usage: mandelbrot [size] [output-file]\n")
+		fmt.fprintf(os.stderr, "Usage: mandelbrot <size> <output.pbm>\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])

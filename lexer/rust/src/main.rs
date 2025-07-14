@@ -6,8 +6,8 @@ use std::io::{self, BufWriter, Read, Write};
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
-    if args.len() < 3 {
-        eprintln!("Usage: {} <input-file> <output-file>", args[0]);
+    if args.len() != 3 {
+        eprintln!("Usage: {} <input.zs> <output.csv>", args[0]);
         std::process::exit(1);
     }
 

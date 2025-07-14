@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <system_error>
 
 int min(int a, int b) { return (a < b) ? a : b; }
 
@@ -73,15 +74,16 @@ void random_fasta(std::ostream &out, const std::string &header, std::vector<Amin
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
-    std::cerr << "Usage: fasta [size] [output-file]\n";
-    exit(1);
+    std::cerr << "Usage: fasta <size> <output.txt>\n";
+    return 1;
   }
 
   int n = std::atoi(argv[1]);
 
   std::ofstream out(argv[2]);
-  if (!out) {
-    std::cerr << "Error opening file: " << argv[2] << std::endl;
+  if (!out.is_open()) {
+    std::error_code ec(errno, std::generic_category());
+    std::cerr << "Error opening file: '" << argv[2] << "': " << ec.message() << std::endl;
     return 1;
   }
 

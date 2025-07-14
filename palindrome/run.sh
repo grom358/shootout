@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 verify() {
   lang=$1
   result=$(/usr/bin/time -f "$lang %e %M" $lang/palindrome 2> err.txt)

@@ -143,12 +143,12 @@ advance :: proc(system: ^NBodySystem, dt: f64) {
 
 main :: proc() {
 	if len(os.args) != 2 {
-		fmt.fprintf(os.stderr, "Usage: nbody [steps]\n")
+		fmt.fprintf(os.stderr, "Usage: nbody <num_steps>\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])
 	if !ok || n < 0 {
-		fmt.fprintf(os.stderr, "Invalid steps!\n")
+		fmt.fprintf(os.stderr, "Invalid num_steps!\n")
 		os.exit(1)
 	}
 	dt :: 0.01

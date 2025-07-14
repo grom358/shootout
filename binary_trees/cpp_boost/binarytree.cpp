@@ -38,7 +38,7 @@ BinaryTree *createBottomUp(unsigned int depth, BinaryTreePool &pool) {
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
-    std::cerr << "Usage: binarytree [depth]\n";
+    std::cerr << "Usage: binarytree <depth>\n";
     return 1;
   }
   unsigned int N, minDepth, maxDepth;

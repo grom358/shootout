@@ -11,7 +11,7 @@ var out *bufio.Writer
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Fprintln(os.Stderr, "Usage: fasta [size] [output-file]")
+		fmt.Fprintln(os.Stderr, "Usage: fasta <size> <output.txt>")
 		os.Exit(1)
 	}
 

@@ -96,7 +96,7 @@ fn random_fasta<W: Write>(
 fn main() -> io::Result<()> {
     let args: Vec<String> = std::env::args().collect();
     if args.len() != 3 {
-        eprintln!("Usage: fasta [size] [output-file]");
+        eprintln!("Usage: fasta <size> <output.txt>");
         std::process::exit(1);
     }
 

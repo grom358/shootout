@@ -1,5 +1,6 @@
 #include "file_readall.h"
 #include "lexer.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,13 +45,14 @@ char *csv_escape(const char *src, int length, int *quote_count) {
 }
 
 int main(int argc, char** argv) {
-  if (argc < 3) {
-    fprintf(stderr, "Usage: %s <input-file> <output-file>\n", argv[0]);
+  if (argc != 3) {
+    fprintf(stderr, "Usage: %s <input.zs> <output.csv>\n", argv[0]);
     return 1;
   }
+
   FILE *file = fopen(argv[1], "rb");
   if (!file) {
-    perror("fopen");
+    fprintf(stderr, "Unable to open file '%s': %s\n", argv[1], strerror(errno));
     return 1;
   }
 
@@ -67,7 +69,7 @@ int main(int argc, char** argv) {
 
   FILE *out = fopen(argv[2], "wb");
   if (!out) {
-    perror("fopen");
+    fprintf(stderr, "Unable to open file '%s': %s\n", argv[2], strerror(errno));
     return 1;
   }
 

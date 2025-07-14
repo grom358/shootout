@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 
 public class Main {
   public static void main(String[] args) throws IOException {
-    if (args.length < 2) {
-      System.err.println("Usage: zscript <input-file> <output-file>");
+    if (args.length != 2) {
+      System.err.println("Usage: zscript <input.zs> <output.csv>");
       System.exit(1);
     }
 

@@ -76,7 +76,7 @@ random_fasta :: proc(writer: ^bufio.Writer, header: string, genelist: []AminoAci
 
 main :: proc() {
 	if len(os.args) != 3 {
-		fmt.fprintf(os.stderr, "Usage: fasta [size] [output-file]\n")
+		fmt.fprintf(os.stderr, "Usage: fasta <size> <output.txt>\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])
@@ -90,7 +90,7 @@ main :: proc() {
 	defer os.close(file_out)
 	if err != nil {
 		fmt.fprintln(os.stderr, "Error opening output:", err)
-		return
+		os.exit(1)
 	}
 	out := os.stream_from_handle(file_out)
 	buf_writer: bufio.Writer

@@ -33,7 +33,7 @@ impl<'a> BinaryTree<'a> {
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
-        eprintln!("Usage: binarytree [depth]");
+        eprintln!("Usage: binarytree <depth>");
         std::process::exit(1);
     }
     let n: i32 = args[1].parse().unwrap();

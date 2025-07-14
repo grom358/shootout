@@ -1,8 +1,8 @@
 using Fasta;
 
 if (args.Length != 2) {
-  Console.WriteLine("Usage: fasta [size] [output-file]");
-  return;
+  Console.Error.WriteLine("Usage: fasta <size> <output.txt>");
+  Environment.Exit(1);
 }
 
 int n = int.Parse(args[0]);

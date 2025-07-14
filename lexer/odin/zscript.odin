@@ -9,9 +9,9 @@ import "core:strings"
 ChunkSize :: 4096
 
 main :: proc() {
-	if len(os.args) < 3 {
-		fmt.fprintln(os.stderr, "Usage: zscript <input-file> <output-file>")
-        os.exit(1)
+	if len(os.args) != 3 {
+		fmt.fprintln(os.stderr, "Usage: zscript <input.zs> <output.csv>")
+		os.exit(1)
 	}
 
 	input_path := os.args[1]
@@ -24,7 +24,7 @@ main :: proc() {
 	defer os.close(file_in)
 	if in_err != nil {
 		fmt.println("Error opening input:", in_err)
-		return
+		os.exit(1)
 	}
 	stream_in := os.stream_from_handle(file_in)
 
@@ -35,7 +35,7 @@ main :: proc() {
 		}
 		if err != nil {
 			fmt.println("Error reading:", err)
-			return
+			os.exit(1)
 		}
 		append(&buffer, ..chunk[0:num_read])
 	}
@@ -44,7 +44,7 @@ main :: proc() {
 	defer os.close(file_out)
 	if err != nil {
 		fmt.println("Error opening output:", err)
-		return
+		os.exit(1)
 	}
 	stream_out := os.stream_from_handle(file_out)
 

@@ -4,6 +4,11 @@ import java.text.*;
 
 public class Main {
   public static void main(String[] args) {
+    if (args.length != 1) {
+      System.err.println("Usage: nbody <num_steps>");
+      System.exit(1);
+    }
+
     NumberFormat nf = NumberFormat.getInstance();
     nf.setMaximumFractionDigits(9);
     nf.setMinimumFractionDigits(9);

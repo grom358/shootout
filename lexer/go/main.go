@@ -12,7 +12,7 @@ import (
 
 func main() {
 	if len(os.Args) < 3 {
-		fmt.Fprintln(os.Stderr, "Usage: zscript <input-file> <output-file>")
+		fmt.Fprintln(os.Stderr, "Usage: zscript <input.zs> <output.csv>")
 		os.Exit(1)
 	}
 

@@ -40,7 +40,7 @@ fn print_sample_count(writer: &mut impl Write, data: &str, sample: &str) -> io::
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
     if args.len() != 3 {
-        eprintln!("Usage: {} [input-file] [output-file]", args[0]);
+        eprintln!("Usage: {} <input.txt> <output.txt>", args[0]);
         std::process::exit(1);
     }
 

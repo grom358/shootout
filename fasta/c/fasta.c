@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -75,16 +76,16 @@ void random_fasta(FILE *file, const char *header, AminoAcid *genelist, int size,
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
-    fprintf(stderr, "Usage: fasta [size] [output-file]\n");
-    exit(1);
+    fprintf(stderr, "Usage: fasta <size> <output.txt>\n");
+    return 1;
   }
 
   int n = atoi(argv[1]);
 
   FILE *file = fopen(argv[2], "wb");
   if (!file) {
-    fprintf(stderr, "Unable to open file %s\n", argv[2]);
-    exit(1);
+    fprintf(stderr, "Unable to open file '%s': %s\n", argv[2], strerror(errno));
+    return 1;
   }
 
   const char alu[] = "GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG"

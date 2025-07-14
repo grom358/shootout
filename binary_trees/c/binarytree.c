@@ -41,7 +41,7 @@ BinaryTree *binary_tree_bottom_up(unsigned int depth) {
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
-    fprintf(stderr, "Usage: binarytree [depth]\n");
+    fprintf(stderr, "Usage: binarytree <depth>\n");
     return 1;
   }
   unsigned int N = atol(argv[1]);
