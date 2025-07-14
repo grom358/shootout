@@ -6,8 +6,8 @@ import "core:strconv"
 import "core:os"
 
 main :: proc() {
-	if len(os.args) != 2 {
-		fmt.fprintf(os.stderr, "Usage: mandelbrot [size]\n")
+	if len(os.args) != 3 {
+		fmt.fprintf(os.stderr, "Usage: mandelbrot [size] [output-file]\n")
 		os.exit(1)
 	}
 	n, ok := strconv.parse_int(os.args[1])
@@ -22,9 +22,16 @@ main :: proc() {
 	bit_num := 0
 	byte_acc: byte = 0
 
-	stdout := os.stream_from_handle(os.stdout)
+	output_path := os.args[2]
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	defer os.close(file_out)
+	if err != nil {
+		fmt.fprintln(os.stderr, "Error opening output:", err)
+		os.exit(1)
+	}
+	out := os.stream_from_handle(file_out)
 	buf_writer: bufio.Writer
-	bufio.writer_init(&buf_writer, stdout)
+	bufio.writer_init(&buf_writer, out)
 	writer := bufio.writer_to_writer(&buf_writer)
 
 	fmt.wprintf(writer, "P4\n%d %d\n", w, h)

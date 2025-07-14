@@ -3,6 +3,11 @@
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
+  if (argc != 3) {
+    fprintf(stderr, "Usage: %s [size] [output-file]\n", argv[0]);
+    return 1;
+  }
+
   int w, h, bit_num = 0;
   char byte_acc = 0;
   int i, iter = 50;
@@ -10,7 +15,14 @@ int main(int argc, char **argv) {
 
   w = h = atoi(argv[1]);
 
-  printf("P4\n%d %d\n", w, h);
+  const char *output_path = argv[2];
+  FILE *out = fopen(output_path, "wb");
+  if (!out) {
+    perror("Failed to open output file");
+    return 1;
+  }
+
+  fprintf(out, "P4\n%d %d\n", w, h);
 
   for (y = 0; y < h; ++y) {
     for (x = 0; x < w; ++x) {
@@ -32,12 +44,12 @@ int main(int argc, char **argv) {
       ++bit_num;
 
       if (bit_num == 8) {
-        putc(byte_acc, stdout);
+        fputc(byte_acc, out);
         byte_acc = 0;
         bit_num = 0;
       } else if (x == w - 1) {
         byte_acc <<= (8 - w % 8);
-        putc(byte_acc, stdout);
+        fputc(byte_acc, out);
         byte_acc = 0;
         bit_num = 0;
       }

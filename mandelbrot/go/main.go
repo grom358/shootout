@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: mandelbrot [size]")
+	if len(os.Args) != 3 {
+		fmt.Fprintln(os.Stderr, "Usage: mandelbrot [size] [output-file]")
 		os.Exit(1)
 	}
 
@@ -18,6 +18,15 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Invalid size argument")
 		os.Exit(1)
 	}
+
+	outputPath := os.Args[2]
+	outFile, err := os.Create(outputPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error creating output:", err)
+		os.Exit(1)
+	}
+	defer outFile.Close()
+
 
 	var bitNum int = 0
 	var byteAcc byte = 0
@@ -28,8 +37,8 @@ func main() {
 	var w int = int(N)
 	var h int = int(N)
 
-	fmt.Printf("P4\n%d %d\n", w, h)
-	writer := bufio.NewWriterSize(os.Stdout, 4096)
+	writer := bufio.NewWriterSize(outFile, 4096)
+	fmt.Fprintf(writer, "P4\n%d %d\n", w, h)
 
 	for y := 0; y < h; y++ {
 		Ci = ((2.0 * float64(y)) / float64(h)) - 1.0

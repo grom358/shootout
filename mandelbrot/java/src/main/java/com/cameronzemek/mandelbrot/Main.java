@@ -4,8 +4,8 @@ import java.io.*;
 
 public class Main {
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.err.println("Usage: mandelbrot <size>");
+    if (args.length != 2) {
+      System.err.println("Usage: mandelbrot [size] [output-file]");
       System.exit(1);
     }
     int w, h, bitNum = 0;
@@ -16,7 +16,8 @@ public class Main {
 
     w = h = Integer.parseInt(args[0]);
 
-    OutputStream out = new BufferedOutputStream(System.out);
+    String outputFile = args[1];
+    OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
     out.write(String.format("P4\n%d %d\n", w, h).getBytes());
 
     for (int y = 0; y < h; ++y) {

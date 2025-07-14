@@ -1,7 +1,13 @@
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 
 int main(int argc, char **argv) {
+  if (argc != 3) {
+    std::cerr << "Usage: mandelbrot [size] [output-file]\n";
+    return 1;
+  }
+
   int w, h, bit_num = 0;
   unsigned char byte_acc = 0;
   int iterations = 50;
@@ -10,7 +16,13 @@ int main(int argc, char **argv) {
 
   w = h = std::atoi(argv[1]);
 
-  std::cout << "P4\n" << w << " " << h << "\n";
+  std::ofstream out(argv[2]);
+  if (!out) {
+    std::cerr << "Error opening file: " << argv[2] << std::endl;
+    return 1;
+  }
+
+  out << "P4\n" << w << " " << h << "\n";
 
   for (int y = 0; y < h; ++y) {
     Ci = (2.0 * y / h - 1.0);
@@ -32,12 +44,12 @@ int main(int argc, char **argv) {
       ++bit_num;
 
       if (bit_num == 8) {
-        std::cout.put(byte_acc);
+        out.put(byte_acc);
         byte_acc = 0;
         bit_num = 0;
       } else if (x == w - 1) {
         byte_acc <<= (8 - w % 8);
-        std::cout.put(byte_acc);
+        out.put(byte_acc);
         byte_acc = 0;
         bit_num = 0;
       }

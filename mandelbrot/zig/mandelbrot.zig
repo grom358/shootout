@@ -1,19 +1,26 @@
 const std = @import("std");
 
-fn get_n() !usize {
-    var arg_it = std.process.args();
-    _ = arg_it.skip();
-    const arg = arg_it.next() orelse return 10;
-    return try std.fmt.parseInt(u32, arg, 10);
-}
-
 pub fn main() !void {
-    const n = try get_n();
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
+
+    if (args.len != 3) {
+        std.debug.print("Usage: {s} [size] [output-file]\n", .{args[0]});
+        return error.InvalidUsage;
+    }
+
+    const n = try std.fmt.parseInt(u32, args[1], 10);
     const h = n;
     const w = n;
 
-    const stdout = std.io.getStdOut().writer();
-    var bufferedWriter = std.io.bufferedWriter(stdout);
+    const output_path = args[2];
+    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
+    defer output_file.close();
+    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
     var out = bufferedWriter.writer();
 
     try out.print("P4\n{d} {d}\n", .{ w, h });

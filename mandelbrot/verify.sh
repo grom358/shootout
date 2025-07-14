@@ -1,7 +1,7 @@
 #!/bin/bash
 verify() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 200 2> time.txt > cmp200.pbm
+  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 200 cmp200.pbm 2> time.txt
   diff test200.pbm cmp200.pbm > /dev/null
   ret=$?
   rm cmp200.pbm

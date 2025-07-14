@@ -1,4 +1,11 @@
-﻿int w, h, bitNum = 0;
+﻿using System.Text;
+
+if (args.Length != 2) {
+  Console.Error.WriteLine("Usage: mandelbrot [size] [output-file]");
+  return;
+}
+
+int w, h, bitNum = 0;
 byte byteAcc = 0;
 int iterations = 50;
 double limitSq = 4.0;
@@ -6,8 +13,12 @@ double Zr, Zi, Cr, Ci, Tr, Ti;
 
 w = h = int.Parse(args[0]);
 
-Console.WriteLine($"P4\n{w} {h}");
-BufferedStream bufferedOut = new BufferedStream(Console.OpenStandardOutput());
+string outputPath = args[1];
+using FileStream outStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None);
+BufferedStream bufferedOut = new BufferedStream(outStream);
+
+byte[] header = Encoding.UTF8.GetBytes($"P4\n{w} {h}\n");
+bufferedOut.Write(header, 0, header.Length);
 
 for (int y = 0; y < h; ++y) {
   Ci = (2.0 * y / h - 1.0);

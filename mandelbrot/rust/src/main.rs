@@ -1,16 +1,23 @@
 use std::env;
 use std::io::{self, BufWriter, Write};
+use std::fs::File;
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
+    if args.len() != 3 {
+        eprintln!("Usage: mandelbrot [size] [output-file]");
+        std::process::exit(1);
+    }
+
     let size: usize = args[1].parse().expect("Failed to parse size argument");
     let mut bit_num = 0;
     let mut byte_acc = 0u8;
     let iter = 50;
     let limit = 2.0;
 
-    let stdout = io::stdout().lock();
-    let mut writer = BufWriter::new(stdout);
+    let output_path = &args[2];
+    let out_file = File::create(output_path)?;
+    let mut writer = BufWriter::new(out_file);
     write!(writer, "P4\n{} {}\n", size, size)?;
 
     for y in 0..size {

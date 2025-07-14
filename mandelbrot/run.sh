@@ -5,7 +5,7 @@ if [[ -z "$RAMDISK" ]]; then
 fi
 bench() {
   lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 16000 2> $RAMDISK/time.txt > $RAMDISK/cmp16000.pbm
+  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 16000 $RAMDISK/cmp16000.pbm 2> $RAMDISK/time.txt
   diff $RAMDISK/test16000.pbm $RAMDISK/cmp16000.pbm > /dev/null
   ret=$?
   rm $RAMDISK/cmp16000.pbm
