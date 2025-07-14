@@ -34,13 +34,6 @@ const BinaryTree = struct {
     }
 };
 
-fn get_n() !usize {
-    var arg_it = std.process.args();
-    _ = arg_it.skip();
-    const arg = arg_it.next() orelse return 10;
-    return try std.fmt.parseInt(u32, arg, 10);
-}
-
 const MIN_DEPTH = 4;
 
 pub fn main() !void {
@@ -48,8 +41,17 @@ pub fn main() !void {
 
     var arena = std.heap.ArenaAllocator.init(globalAllocator);
     defer arena.deinit();
+    const allocator = arena.allocator();
 
-    const n = try get_n();
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
+
+    if (args.len != 2) {
+        std.debug.print("Usage: {s} <depth>", .{args[0]});
+        std.process.exit(1);
+    }
+
+    const n = try std.fmt.parseInt(u32, args[1], 10);
     const maxDepth = @max(MIN_DEPTH + 2, n);
 
     var output = std.io.getStdOut().writer();
