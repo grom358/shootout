@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
   w = h = std::atoi(argv[1]);
 
-  std::ofstream out(argv[2]);
+  std::ofstream out(argv[2], std::ios::binary);
   if (!out) {
     std::error_code ec(errno, std::generic_category());
     std::cerr << "Error opening file '" << argv[2] << "': " << ec.message() << std::endl;
