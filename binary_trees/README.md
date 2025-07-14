@@ -28,26 +28,25 @@ walking the tree)
 * zig - Uses arena allocator backed by page allocator
 
 ## Results
-Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+
+Tested on AMD Ryzen 5 7600X 6-Core Processor
+Windows 11 WSL - Ubuntu 24.04 LTS
 
 Legend:
 * Time = Total seconds
 * RSS = maximum resident set size in KB
 
-| Name             | Time  | RSS     |
+| Language         |  Time |     RSS |
 | ---------------- | ----: | ------: |
-| c_apr            |  2.93 |  133824 |
-| java             |  3.24 | 2237080 |
-| rust_typed_arena |  3.63 |  135060 |
-| zig              |  4.29 |  198600 |
-| cpp_boost        |  4.60 |  265760 |
-| odin_arena       |  6.37 |  331276 |
-| odin             |  7.70 |  394604 |
-| c                | 14.41 |  263656 |
-| csharp           | 15.22 |  562860 |
-| rust             | 15.89 |  263924 |
-| cpp              | 17.53 |  462436 |
-| go               | 22.51 |  247128 |
-
-Java GC uses a lot of RAM but it blows the other GC languages out of the water
-here and even beats arena allocators from manual managed languages.
+| c_apr            |  1.76 |  133768 |
+| java             |  2.42 | 3097956 |
+| cpp_boost        |  2.43 |  265204 |
+| rust_typed_arena |  2.44 |  133136 |
+| zig              |  2.47 |  198232 |
+| odin_arena       |  3.29 |  331052 |
+| odin             |  4.15 |  394760 |
+| rust             |  7.36 |  264348 |
+| csharp           |  7.49 |  568372 |
+| c                |  9.17 |  263860 |
+| go               | 10.21 |  197528 |
+| cpp              | 10.91 |  462456 |

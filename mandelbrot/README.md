@@ -13,19 +13,21 @@ $ ./generate.sh
 ```
 
 ## Results
-Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+
+Tested on AMD Ryzen 5 7600X 6-Core Processor
+Windows 11 WSL - Ubuntu 24.04 LTS
 
 Legend:
 * Time = Total seconds
 * RSS = maximum resident set size in KB
 
-| Language | Time  | RSS   |
-| -------- | ----- | ----: |
-| c        | 17.11 |  1528 |
-| odin     | 17.28 |  1624 |
-| cpp      | 17.35 |  3620 |
-| go       | 17.45 |  3544 |
-| zig      | 17.65 |   264 |
-| csharp   | 17.71 | 39004 |
-| rust     | 17.99 |  1968 |
-| java     | 20.25 | 55324 |
+| Language |  Time |   RSS |
+| -------- | ----: | ----: |
+| odin     | 10.82 |  1928 |
+| zig      | 11.05 |   348 |
+| cpp      | 11.10 |  3764 |
+| rust     | 11.60 |  2296 |
+| c        | 11.72 |  1824 |
+| java     | 11.75 | 51596 |
+| go       | 12.22 |  3692 |
+| csharp   | 21.38 | 33316 |

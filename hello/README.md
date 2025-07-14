@@ -15,60 +15,63 @@ $ ./generate.sh
 
 ## Shared libraries
 * C
-  * linux-vdso.so.1 (0x00007ffddab85000)
-  * libc.so.6 => /usr/lib/libc.so.6 (0x00007f8e69e29000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f8e6a045000)
+  * linux-vdso.so.1 (0x00007ffce59c2000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2d9f948000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007f2d9fb68000)
 * C++
-  * linux-vdso.so.1 (0x00007ffd61b9a000)
-  * libstdc++.so.6 => /usr/lib/libstdc++.so.6   * (0x00007fd817c00000)
-  * libm.so.6 => /usr/lib/libm.so.6   * (0x00007fd817b13000)
-  * libgcc_s.so.1 => /usr/lib/libgcc_s.so.1   * (0x00007fd817ea1000)
-  * libc.so.6 => /usr/lib/libc.so.6   * (0x00007fd817929000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007fd817ef8000)
+  * linux-vdso.so.1 (0x00007ffe21df3000)
+  * libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f76f4b96000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f76f4984000)
+  * libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f76f489b000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007f76f4e22000)
+  * libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f76f486d000)
 * C#
   * Requires .Net runtime
-  * linux-vdso.so.1 (0x00007ffce8374000)
-  * libstdc++.so.6 => /usr/lib/libstdc++.so.6   * (0x00007f540c400000)
-  * libm.so.6 => /usr/lib/libm.so.6   * (0x00007f540c748000)
-  * libgcc_s.so.1 => /usr/lib/libgcc_s.so.1   * (0x00007f540c723000)
-  * libc.so.6 => /usr/lib/libc.so.6   * (0x00007f540c216000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f540c876000)
+  * linux-vdso.so.1 (0x00007ffc7adda000)
+  * libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f7145ca8000)
+  * libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7145bbf000)
+  * libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f7145b91000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f714597f000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007f7145f45000)
 * Go
   * Static binary
 * Java
   * Requires JRE
-  * linux-vdso.so.1 (0x00007ffe2197c000)
+  * linux-vdso.so.1 (0x00007ffd3f7e7000)
+  * libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f8f0029f000)
   * libjli.so => not found
-  * libc.so.6 => /usr/bin/../lib/libc.so.6   * (0x00007f6804ed8000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f68050f4000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f8f0008d000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007f8f002c9000)
 * Odin
-  * linux-vdso.so.1 (0x00007ffd8bd18000)
-  * libc.so.6 => /usr/lib/libc.so.6   * (0x00007f894a503000)
-  * libm.so.6 => /usr/lib/libm.so.6   * (0x00007f894a416000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f894a71a000)
+  * linux-vdso.so.1 (0x00007fff459d8000)
+  * libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7374dcd000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7374bbb000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007f7374ebf000)
 * Rust
-  * linux-vdso.so.1 (0x00007fe393a4e000)
-  * libgcc_s.so.1 => /usr/lib/libgcc_s.so.1   * (0x00007fe3939a9000)
-  * libc.so.6 => /usr/lib/libc.so.6   * (0x00007fe3937bf000)
-  * /lib64/ld-linux-x86-64.so.2 => /usr/lib64/  * ld-linux-x86-64.so.2 (0x00007fe393a50000)
+  * linux-vdso.so.1 (0x00007ffe7db63000)
+  * libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fab1db69000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fab1d957000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007fab1dbf6000)
 * Zig
   * Static binary
 
 ## Results
-Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+
+Tested on AMD Ryzen 5 7600X 6-Core Processor
+Windows 11 WSL - Ubuntu 24.04 LTS
 
 Legend:
 * Time = Total seconds
 * RSS = maximum resident set size in KB
-* Bin = Binary size in KB (+ Requires runtime)
+* Size = Binary size in KB (+ Requires runtime)
 
-| Language | Time | RSS   | Size |
-| -------- | ---- | ----: | ---: |
-| zig      | 0.00 |   264 | 1648 |
-| c        | 0.00 |  1204 |   15 |
-| odin     | 0.00 |  1700 |  152 |
-| rust     | 0.00 |  1908 |  406 |
-| cpp      | 0.00 |  3800 |   15 |
-| go       | 0.00 |  3536 | 2078 |
-| csharp   | 0.05 | 29316 |  75+ |
-| java     | 0.02 | 29316 |   2+ |
+| Language | Time |   RSS | Size |
+| -------- | ---: | ----: | ---: |
+| c        | 0.00 |  1560 |   16 |
+| cpp      | 0.00 |  3616 |   16 |
+| go       | 0.00 |  3648 | 2164 |
+| odin     | 0.00 |  1924 |  160 |
+| rust     | 0.00 |  2128 |  416 |
+| zig      | 0.00 |   352 |  884 |
+| csharp   | 0.02 | 33260 |  80+ |
+| java     | 0.02 | 45336 |   4+ |

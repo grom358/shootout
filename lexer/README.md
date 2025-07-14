@@ -79,19 +79,21 @@ Legend:
 | Odin     | 5.935  | 2.322  |
 
 ## Results
-Tested on Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
+
+Tested on AMD Ryzen 5 7600X 6-Core Processor
+Windows 11 WSL - Ubuntu 24.04 LTS
 
 Legend:
 * Time = Total seconds
 * RSS = maximum resident set size in KB
 
-| Language | Time | RSS    |
-| -------- | ---- | -----: |
-| zig      | 0.83 |  45376 |
-| rust     | 1.13 |  32724 |
-| odin     | 1.19 |  36432 |
-| go       | 1.33 |  69540 |
-| c        | 1.49 |  51216 |
-| csharp   | 2.60 | 162088 |
-| cpp      | 2.70 |  63228 |
-| java     | 2.70 | 309148 |
+| Language | Time |    RSS |
+| -------- | ---: | -----: |
+| zig      | 0.61 |  92240 |
+| odin     | 0.67 |  34836 |
+| rust     | 0.73 |  30612 |
+| go       | 0.82 |  62372 |
+| c        | 1.01 |  51404 |
+| cpp      | 1.08 |  62248 |
+| csharp   | 1.30 | 168552 |
+| java     | 1.50 | 580160 |
