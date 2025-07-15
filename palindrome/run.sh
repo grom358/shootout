@@ -1,18 +1,10 @@
 #!/bin/bash
-verify() {
-  lang=$1
-  result=$(/usr/bin/time -f "$lang %e %M" $lang/palindrome 2> err.txt)
-  if [[ "$result" = "49500000000000" ]]
-  then
-    echo -en "\e[32m[OK]\e[0m "
-  else
-    echo -en "\e[31m[FAILED]\e[0m "
-  fi
-  cat err.txt
-}
+source ../lib.sh
+
+EXPECTED=expected.txt
+ACTUAL=actual.txt
 
 for lang in $(cat languages.txt)
 do
-  verify $lang
+  bench $lang $EXPECTED $ACTUAL "$lang/palindrome > $ACTUAL"
 done
-rm err.txt

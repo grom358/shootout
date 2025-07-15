@@ -1,25 +1,13 @@
 #!/bin/bash
-if [[ -z "$RAMDISK" ]]; then
-  echo "Error: RAMDISK is not set" >&2
-  exit 1
-fi
-bench() {
-  lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 16000 $RAMDISK/cmp16000.pbm 2> $RAMDISK/time.txt
-  diff $RAMDISK/test16000.pbm $RAMDISK/cmp16000.pbm > /dev/null
-  ret=$?
-  rm $RAMDISK/cmp16000.pbm
-  if [[ $ret -eq 0 ]]
-  then
-    echo -en "\e[32m[OK]\e[0m "
-  else
-    echo -en "\e[31m[FAILED]\e[0m "
-  fi
-  cat $RAMDISK/time.txt
-  rm $RAMDISK/time.txt
-}
+source ../lib.sh
+check_ramdisk
+
+EXPECTED=$RAMDISK/mandelbrot_expected16000.pbm
+ACTUAL=$RAMDISK/mandelbrot_actual16000.pbm
+
+check_file $EXPECTED
 
 for lang in $(cat languages.txt)
 do
-  bench $lang
+  bench $lang $EXPECTED $ACTUAL "$lang/mandelbrot 16000 $ACTUAL"
 done

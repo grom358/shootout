@@ -1,21 +1,10 @@
 #!/bin/bash
-verify() {
-  lang=$1
-  /usr/bin/time -f "$lang %e %M" $lang/mandelbrot 200 cmp200.pbm 2> time.txt
-  diff test200.pbm cmp200.pbm > /dev/null
-  ret=$?
-  rm cmp200.pbm
-  if [[ $ret -eq 0 ]]
-  then
-    echo -en "\e[32m[OK]\e[0m "
-  else
-    echo -en "\e[31m[FAILED]\e[0m "
-  fi
-  cat time.txt
-  rm time.txt
-}
+source ../lib.sh
+
+EXPECTED=expected200.pbm
+ACTUAL=actual200.pbm
 
 for lang in $(cat languages.txt)
 do
-  verify $lang
+  bench $lang $EXPECTED $ACTUAL "$lang/mandelbrot 200 $ACTUAL"
 done

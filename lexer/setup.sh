@@ -7,5 +7,5 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 if [[ ! -s "$RAMDISK/test.zs" ]]; then
   go run repeat.go 20000 $SCRIPT_DIR/example.zs $RAMDISK/test.zs
   (cd $SCRIPT_DIR/go; ./build.sh)
-  $SCRIPT_DIR/go/zscript $RAMDISk/test.zs $RAMDISK/test.csv
+  $SCRIPT_DIR/go/zscript $RAMDISK/test.zs $RAMDISK/test.csv
 fi
