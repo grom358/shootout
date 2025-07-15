@@ -1,2 +1,7 @@
-#!/bin/sh
-odin build . -o:speed -out:vector
+#!/bin/bash
+if [[ "$OS" == "Windows_NT" ]]; then
+  EXT=".exe"
+else
+  EXT=""
+fi
+odin build . -o:speed -out:vector$EXT
