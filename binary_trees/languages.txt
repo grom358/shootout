@@ -2,6 +2,9 @@ c
 c_apr
 cpp
 cpp_boost
+d
+d_nogc
+d_region
 go
 zig
 odin

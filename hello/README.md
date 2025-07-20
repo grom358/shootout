@@ -33,6 +33,12 @@ $ ./generate.sh
   * libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f7145b91000)
   * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f714597f000)
   * /lib64/ld-linux-x86-64.so.2 (0x00007f7145f45000)
+* D
+  * linux-vdso.so.1 (0x00007ffc079d2000)
+  * libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fe69b81a000)
+  * libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fe69b7ec000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fe69b5da000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007fe69b9de000)
 * Go
   * Static binary
 * Java
@@ -69,6 +75,7 @@ Legend:
 | -------- | ---: | ----: | ---: |
 | c        | 0.00 |  1560 |   16 |
 | cpp      | 0.00 |  3616 |   16 |
+| d        | 0.00 |  3496 | 1172 |
 | go       | 0.00 |  3648 | 2164 |
 | odin     | 0.00 |  1924 |  160 |
 | rust     | 0.00 |  2128 |  416 |

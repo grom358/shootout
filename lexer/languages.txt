@@ -1,5 +1,7 @@
 c
 cpp
+d
+d_pgo
 go
 zig
 odin

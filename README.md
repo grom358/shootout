@@ -2,6 +2,7 @@
 Evaluation of programming languages:
 * C
 * C++
+* D
 * Rust
 * Zig
 * Odin
@@ -10,52 +11,6 @@ Evaluation of programming languages:
 * C#
 
 Mostly interested in non garbage collected languages in this shootout.
-
-## Installation
-NOTE: I am using Manjaro Linux 23
-* time (provides CPU/maximum memory usage for benchmarking)
-* gcc, make (C/C++)
-* llvm-14 (for building Odin)
-* dotnet-sdk
-* jdk17-openjdk
-* go
-* zig
-* apr
-* boost
-
-```
-# install rust toolchain
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# install Odin
-git clone --depth 1 https://github.com/odin-lang/Odin
-cd Odin
-export LLVM_CONFIG=llvm-config-14
-./build_odin.sh
-# add ~/Odin to PATH
-```
-
-Using neovim with NVChad for code editing. Encountered the following issues:
-
-C/C++ editing would complain with `multiple different client offset_encodings detected for buffer, this is not supported yet`. Fixed with:
-```
-# ~/.config/nvim/lua/custom/configs/lspconfig.lua
-local clang_cap = require("plugins.configs.lspconfig").capabilities
-clang_cap.offsetEncoding = "utf-16"
-lspconfig.clangd.setup {
-  on_attach = on_attach,
-  capabilities = clang_cap,
-}
-```
-C# LSP required setting path to OmniSharp.dll even though installed via Mason:
-```
-# ~/.config/nvim/lua/custom/configs/lspconfig.lua
-lspconfig.omnisharp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "dotnet", "/home/grom/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-}
-```
 
 ## Challenges
 Implementations for the challenges are likely not idomatic due to my lack of
@@ -152,6 +107,15 @@ Pros:
 Cons:
 * Bloated language. No mere mortal can know all the language.
 * Hidden control flow. Eg. copy/move constructors are called and its not obvious.
+
+## D
+Pros:
+* Improved C++
+
+Cons:
+* Small community
+* Documentation lacks examples
+* Garbage collection. GC is also not very advanced
 
 ## Go
 Pros:
