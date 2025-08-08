@@ -10,7 +10,7 @@ BinaryTree :: struct {
 	right: ^BinaryTree,
 }
 
-binary_tree_bottom_up :: proc(depth: int, allocator := context.allocator) -> ^BinaryTree {
+binary_tree_bottom_up :: proc(depth: uint, allocator: mem.Allocator) -> ^BinaryTree {
 	root := new(BinaryTree, allocator)
 	if depth > 0 {
 		root.left = binary_tree_bottom_up(depth - 1, allocator)
@@ -27,14 +27,9 @@ binary_tree_count_nodes :: proc(bt: ^BinaryTree) -> int {
 	}
 }
 
-binary_tree_free :: proc(bt: ^BinaryTree, allocator := context.allocator) {
-	if bt.left != nil {
-		binary_tree_free(bt.left, allocator)
-	}
-	if bt.right != nil {
-		binary_tree_free(bt.right, allocator)
-	}
-	free(bt, allocator)
+size_for_depth :: proc(depth: uint) -> uint {
+	num_node : uint = (1 << (depth + 1)) - 1;
+	return num_node * size_of(BinaryTree)
 }
 
 main :: proc() {
@@ -42,21 +37,20 @@ main :: proc() {
 		fmt.fprintf(os.stderr, "Usage: binarytree <depth>\n")
 		os.exit(1)
 	}
-	n, ok := strconv.parse_int(os.args[1])
+	n, ok := strconv.parse_uint(os.args[1])
 	if !ok || n < 0 {
 		fmt.fprintf(os.stderr, "Invalid depth!\n")
 		os.exit(1)
 	}
 
-	// Setup 1Gb arena.
+	MIN_DEPTH : uint : 4
+	max_depth := n if n > MIN_DEPTH + 2 else MIN_DEPTH + 2
+
 	arena: mem.Arena
-	storage := make([]u8, 1024 * 1024 * 1024)
+	storage := make([]u8, size_for_depth(max_depth + 1))
 	defer delete(storage)
 	mem.arena_init(&arena, storage)
 	arena_allocator := mem.arena_allocator(&arena)
-
-	MIN_DEPTH :: 4
-	max_depth := n if n > MIN_DEPTH + 2 else MIN_DEPTH + 2
 
 	{
 		stretch_depth := max_depth + 1
@@ -66,8 +60,12 @@ main :: proc() {
 		fmt.printf("stretch tree of depth %d\t check: %d\n", stretch_depth, stretch_check)
 	}
 
-	long_lived_tree := binary_tree_bottom_up(max_depth)
-	defer binary_tree_free(long_lived_tree)
+	long_lived_arena: mem.Arena
+	long_lived_storage := make([]u8, size_for_depth(max_depth))
+	defer delete(long_lived_storage)
+	mem.arena_init(&long_lived_arena, long_lived_storage)
+	long_lived_allocator := mem.arena_allocator(&long_lived_arena)
+	long_lived_tree := binary_tree_bottom_up(max_depth, long_lived_allocator)
 
 	for depth := MIN_DEPTH; depth <= max_depth; depth += 2 {
 		check := 0

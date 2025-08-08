@@ -22,7 +22,7 @@ walking the tree)
 * go - Uses built-in garbage collector
 * java - Uses built-in garbage collector
 * odin - Uses the default context.allocator and context.temp_allocator
-* odin_arena - Uses a 1Gb backed arena allocator
+* odin_arena - Uses mem.Arena with explicit buffer
 * rust - Uses Box to managed deallocation of the tree
 * rust_typed_arena - Uses the typed arena create as arena allocator for trees
 * zig - Uses arena allocator backed by page allocator
