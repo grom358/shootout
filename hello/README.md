@@ -48,6 +48,10 @@ $ ./generate.sh
   * libjli.so => not found
   * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f8f0008d000)
   * /lib64/ld-linux-x86-64.so.2 (0x00007f8f002c9000)
+* Nim
+  * linux-vdso.so.1 (0x00007fff48b18000)
+  * libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fc1356a0000)
+  * /lib64/ld-linux-x86-64.so.2 (0x00007fc1358c7000)
 * Odin
   * linux-vdso.so.1 (0x00007fff459d8000)
   * libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7374dcd000)
@@ -75,10 +79,11 @@ Legend:
 | -------- | ---: | ----: | ---: |
 | c        | 0.00 |  1560 |   16 |
 | cpp      | 0.00 |  3616 |   16 |
-| d        | 0.00 |  3496 | 1172 |
-| go       | 0.00 |  3648 | 2164 |
+| nim      | 0.00 |  3488 |   40 |
 | odin     | 0.00 |  1924 |  160 |
 | rust     | 0.00 |  2128 |  416 |
 | zig      | 0.00 |   352 |  884 |
+| d        | 0.00 |  3496 | 1172 |
+| go       | 0.00 |  3648 | 2164 |
 | csharp   | 0.02 | 33260 |  80+ |
 | java     | 0.02 | 45336 |   4+ |
