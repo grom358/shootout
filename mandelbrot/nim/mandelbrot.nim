@@ -1,4 +1,4 @@
-import os, strutils, strformat, streams
+import os, strutils, strformat
 
 proc main() =
   if paramCount() != 2:
