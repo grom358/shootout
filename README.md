@@ -1,14 +1,15 @@
 # Language shootout
 Evaluation of programming languages:
 * C
+* C#
 * C++
 * D
-* Rust
-* Zig
-* Odin
 * Go
 * Java
-* C#
+* Nim
+* Odin
+* Rust
+* Zig
 
 Mostly interested in non garbage collected languages in this shootout.
 
@@ -49,41 +50,6 @@ Hashtable of k-nucleotide strings. From the [The Computer Language Benchmark Gam
 
 # Notes
 
-## Java
-Pros:
-* Decent standard library
-* Lots of 3rd party libraries
-* Exceptions for error handling
-
-Cons:
-* Garbage collector
-* UTF-16 strings
-* No unsigned integer types
-* Primitive types require boxing
-* Everything must be in a class, no free-standing functions
-* Requires runtime
-* There is a tendency in the community to over abstract
-
-## C#
-Pros:
-* Improvements to Java such as:
-  * Structs
-  * Unsigned integer types
-
-Cons:
-* Garbage collector
-* UTF-16 strings
-* Requires runtime
-
-## Rust
-Pros:
-* Safety
-* Nice compiler error messages
-* Cargo
-
-Cons:
-* Slow compile times
-
 ## C
 Pros:
 * Portable assembly
@@ -98,6 +64,17 @@ Cons:
   * limited string operations. eg. doing string replacements
   * no dynamic array or hashtables
   * no built-in array slicing
+
+## C#
+Pros:
+* Improvements to Java such as:
+  * Structs
+  * Unsigned integer types
+
+Cons:
+* Garbage collector
+* UTF-16 strings
+* Requires runtime
 
 ## C++
 Pros:
@@ -127,18 +104,22 @@ Cons:
 * Garbage collection. Generates less garbage then language like Java
 * Manual error propagation
 
-## Zig
+## Java
 Pros:
-* No hidden control flow
-* No hidden memory allocations
-* No preprocessor, no macros
-* Error values
-* Custom allocators. Eg. arena allocator
+* Decent standard library
+* Lots of 3rd party libraries
+* Exceptions for error handling
 
 Cons:
-* Missing documentation
-* No 1.0 release
-* Not ready for production use
+* Garbage collector
+* UTF-16 strings
+* No unsigned integer types
+* Primitive types require boxing
+* Everything must be in a class, no free-standing functions
+* Requires runtime
+* There is a tendency in the community to over abstract
+
+## Nim
 
 ## Odin
 Pros:
@@ -153,3 +134,25 @@ Cons:
 
 Misc:
 * No Uniform Function Call Syntax (ie. `mytype.method()`) 
+
+## Rust
+Pros:
+* Safety
+* Nice compiler error messages
+* Cargo
+
+Cons:
+* Slow compile times
+
+## Zig
+Pros:
+* No hidden control flow
+* No hidden memory allocations
+* No preprocessor, no macros
+* Error values
+* Custom allocators. Eg. arena allocator
+
+Cons:
+* Missing documentation
+* No 1.0 release
+* Not ready for production use
