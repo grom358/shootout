@@ -259,7 +259,7 @@ EOF
 lang=csharp
 mkdir $name/$lang
 dotnet new console -o $name/$lang -n $name
-(cd $name/$lang; ln -s bin/Release/net9.0/$name $name)
+(cd $name/$lang; ln -s bin/Release/net10.0/$name $name)
 cat > $name/$lang/build.sh << EOF
 #!/bin/sh
 dotnet build -c Release
