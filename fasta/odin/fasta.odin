@@ -86,13 +86,13 @@ main :: proc() {
 	}
 
 	output_path := os.args[2]
-	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, os.Permissions_Read_All + os.Permissions{.Write_User})
 	defer os.close(file_out)
 	if err != nil {
 		fmt.fprintln(os.stderr, "Error opening output:", err)
 		os.exit(1)
 	}
-	out := os.stream_from_handle(file_out)
+	out := os.to_stream(file_out);
 	buf_writer: bufio.Writer
 	bufio.writer_init(&buf_writer, out)
 

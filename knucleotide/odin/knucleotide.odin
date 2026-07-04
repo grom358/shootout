@@ -25,7 +25,7 @@ pair_less :: proc(i, j: Pair) -> bool {
 	return j.value < i.value
 }
 
-print_frequencies :: proc(writer: os.Handle, data: string, k: int) {
+print_frequencies :: proc(writer: ^os.File, data: string, k: int) {
 	counts := count_nucleotides(data, k)
 	defer delete(counts)
 	total := 0
@@ -49,7 +49,7 @@ print_frequencies :: proc(writer: os.Handle, data: string, k: int) {
 	fmt.fprintf(writer, "\n")
 }
 
-print_sample_count :: proc(writer: os.Handle, data: string, sample: string) {
+print_sample_count :: proc(writer: ^os.File, data: string, sample: string) {
 	k := len(sample)
 	counts := count_nucleotides(data, k)
 	defer delete(counts)
@@ -81,7 +81,7 @@ main :: proc() {
 		os.exit(1)
 	}
 
-	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, os.Permissions_Read_All + os.Permissions{.Write_User})
 	defer os.close(file_out)
 	if err != nil {
 		fmt.println("Error opening output:", err)
@@ -95,7 +95,7 @@ main :: proc() {
 	{
 		buf_reader: bufio.Reader
 		buffer := [100]u8{}
-		bufio.reader_init_with_buf(&buf_reader, os.stream_from_handle(file_in), buffer[0:])
+		bufio.reader_init_with_buf(&buf_reader, os.to_stream(file_in), buffer[0:])
 
 		for {
 			line_bytes, err := bufio.reader_read_slice(&buf_reader, '\n')

@@ -26,7 +26,7 @@ main :: proc() {
 		fmt.println("Error opening input:", in_err)
 		os.exit(1)
 	}
-	stream_in := os.stream_from_handle(file_in)
+	stream_in := os.to_stream(file_in)
 
 	for {
 		num_read, err := io.read(stream_in, chunk[0:ChunkSize])
@@ -40,13 +40,13 @@ main :: proc() {
 		append(&buffer, ..chunk[0:num_read])
 	}
 
-	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, 0o644)
+	file_out, err := os.open(output_path, os.O_CREATE | os.O_TRUNC | os.O_WRONLY, os.Permissions_Read_All + os.Permissions{.Write_User})
 	defer os.close(file_out)
 	if err != nil {
 		fmt.println("Error opening output:", err)
 		os.exit(1)
 	}
-	stream_out := os.stream_from_handle(file_out)
+	stream_out := os.to_stream(file_out)
 
 	buf_writer: bufio.Writer
 	bufio.writer_init(&buf_writer, stream_out)
@@ -249,38 +249,37 @@ token_type_string :: proc(token_type: TokenType) -> string {
 }
 
 token_type_keyword :: proc(id: string) -> TokenType {
-	using TokenType
 	switch id {
 	case "let":
-		return Let
+		return .Let
 	case "true":
-		return True
+		return .True
 	case "false":
-		return False
+		return .False
 	case "if":
-		return If
+		return .If
 	case "else":
-		return Else
+		return .Else
 	case "while":
-		return While
+		return .While
 	case "foreach":
-		return Foreach
+		return .Foreach
 	case "as":
-		return As
+		return .As
 	case "not":
-		return Not
+		return .Not
 	case "and":
-		return And
+		return .And
 	case "or":
-		return Or
+		return .Or
 	case "xor":
-		return Xor
+		return .Xor
 	case "function":
-		return Function
+		return .Function
 	case "return":
-		return Return
+		return .Return
 	case:
-		return Identifier
+		return .Identifier
 	}
 }
 
@@ -344,9 +343,8 @@ lexer_read_char :: proc(lexer: ^Lexer) {
 }
 
 lexer_match :: proc(lexer: ^Lexer, token_type: TokenType) -> Token {
-	using lexer
-	literal := string(input[position:read_position])
-	return Token{line_no, col_no, token_type, literal}
+	literal := string(lexer.input[lexer.position:lexer.read_position])
+	return Token{lexer.line_no, lexer.col_no, token_type, literal}
 }
 
 lexer_match_if :: proc(
@@ -429,54 +427,53 @@ lexer_next_token :: proc(lexer: ^Lexer) -> Token {
 	lexer.col_no = lexer.read_col_no
 	lexer_read_char(lexer)
 	literal := lexer.input[lexer.position:lexer.read_position]
-	using TokenType
 	switch lexer.ch {
 	case '(':
-		return lexer_match(lexer, Lparen)
+		return lexer_match(lexer, .Lparen)
 	case ')':
-		return lexer_match(lexer, Rparen)
+		return lexer_match(lexer, .Rparen)
 	case '[':
-		return lexer_match(lexer, Lbracket)
+		return lexer_match(lexer, .Lbracket)
 	case ']':
-		return lexer_match(lexer, Rbracket)
+		return lexer_match(lexer, .Rbracket)
 	case '{':
-		return lexer_match(lexer, Lcurly)
+		return lexer_match(lexer, .Lcurly)
 	case '}':
-		return lexer_match(lexer, Rcurly)
+		return lexer_match(lexer, .Rcurly)
 	case ';':
-		return lexer_match(lexer, Semicolon)
+		return lexer_match(lexer, .Semicolon)
 	case ':':
-		return lexer_match(lexer, Colon)
+		return lexer_match(lexer, .Colon)
 	case ',':
-		return lexer_match(lexer, Comma)
+		return lexer_match(lexer, .Comma)
 	case '^':
-		return lexer_match(lexer, Pow)
+		return lexer_match(lexer, .Pow)
 	case '+':
-		return lexer_match_if(lexer, '=', AssignPlus, Plus)
+		return lexer_match_if(lexer, '=', .AssignPlus, .Plus)
 	case '-':
-		return lexer_match_if(lexer, '=', AssignMinus, Minus)
+		return lexer_match_if(lexer, '=', .AssignMinus, .Minus)
 	case '*':
-		return lexer_match_if(lexer, '=', AssignMultiply, Multiply)
+		return lexer_match_if(lexer, '=', .AssignMultiply, .Multiply)
 	case '/':
-		return lexer_match_if(lexer, '=', AssignDivide, Divide)
+		return lexer_match_if(lexer, '=', .AssignDivide, .Divide)
 	case '%':
-		return lexer_match_if(lexer, '=', AssignMod, Mod)
+		return lexer_match_if(lexer, '=', .AssignMod, .Mod)
 	case '<':
-		return lexer_match_if(lexer, '=', LessEqual, LessThan)
+		return lexer_match_if(lexer, '=', .LessEqual, .LessThan)
 	case '>':
-		return lexer_match_if(lexer, '=', GreaterEqual, GreaterThan)
+		return lexer_match_if(lexer, '=', .GreaterEqual, .GreaterThan)
 	case '=':
-		return lexer_match_if(lexer, '=', Equal, Assign)
+		return lexer_match_if(lexer, '=', .Equal, .Assign)
 	case '!':
-		return lexer_match_if(lexer, '=', NotEqual, Illegal)
+		return lexer_match_if(lexer, '=', .NotEqual, .Illegal)
 	case '~':
-		return lexer_match_if(lexer, '=', AssignConcat, Concat)
+		return lexer_match_if(lexer, '=', .AssignConcat, .Concat)
 	case '"':
 		return lexer_match_string(lexer)
 	case '#':
 		return lexer_match_comment(lexer)
 	case 0:
-		return lexer_match(lexer, Eof)
+		return lexer_match(lexer, .Eof)
 	case:
 		if is_whitespace(lexer.ch) {
 			return lexer_match_whitespace(lexer)
@@ -485,7 +482,7 @@ lexer_next_token :: proc(lexer: ^Lexer) -> Token {
 		} else if is_digit(lexer.ch) {
 			return lexer_match_number(lexer)
 		} else {
-			return lexer_match(lexer, Illegal)
+			return lexer_match(lexer, .Illegal)
 		}
 	}
 }
