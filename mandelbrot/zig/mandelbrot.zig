@@ -1,12 +1,10 @@
 const std = @import("std");
 
-pub fn main() !void {
-    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
-    defer arena.deinit();
-    const allocator = arena.allocator();
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+    const allocator = init.arena.allocator();
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 3) {
         std.debug.print("Usage: {s} <size> <output.pbm>\n", .{args[0]});
@@ -18,10 +16,11 @@ pub fn main() !void {
     const w = n;
 
     const output_path = args[2];
-    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
-    defer output_file.close();
-    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
-    var out = bufferedWriter.writer();
+    const output_file = try std.Io.Dir.cwd().createFile(io, output_path, .{ .truncate = true });
+    defer output_file.close(io);
+    var write_buffer: [4096]u8 = undefined;
+    var buffered_writer = output_file.writer(io, &write_buffer);
+    const out = &buffered_writer.interface;
 
     try out.print("P4\n{d} {d}\n", .{ w, h });
 
@@ -71,5 +70,5 @@ pub fn main() !void {
         }
     }
 
-    try bufferedWriter.flush();
+    try buffered_writer.flush();
 }

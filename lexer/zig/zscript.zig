@@ -1,13 +1,10 @@
 const std = @import("std");
 
-pub fn main() !void {
-    const backingAllocator = std.heap.page_allocator;
-    var arena = std.heap.ArenaAllocator.init(backingAllocator);
-    defer arena.deinit();
-    const allocator = arena.allocator();
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+    const allocator = init.arena.allocator();
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 3) {
         std.debug.print("Usage: {s} <input.zs> <output.csv>\n", .{args[0]});
@@ -17,14 +14,13 @@ pub fn main() !void {
     const input_path = args[1];
     const output_path = args[2];
 
-    const input_file = try std.fs.cwd().openFile(input_path, .{});
-    defer input_file.close();
-    const input = try input_file.readToEndAlloc(allocator, 1024 * 1024 * 1024 * 4);
+    const input = try std.Io.Dir.cwd().readFileAlloc(io, input_path, allocator, std.Io.Limit.limited(1024 * 1024 * 1024 * 4));
 
-    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
-    defer output_file.close();
-    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
-    var out = bufferedWriter.writer();
+    const output_file = try std.Io.Dir.cwd().createFile(io, output_path, .{ .truncate = true });
+    defer output_file.close(io);
+    var write_buffer: [4096]u8 = undefined;
+    var buffered_writer = output_file.writer(io, &write_buffer);
+    const out = &buffered_writer.interface;
 
     var lexer = Lexer.init(input);
 
@@ -52,7 +48,7 @@ pub fn main() !void {
             try out.print("{d},{d},\"{s}\",\"{s}\"\n", .{ token.lineNo, token.colNo, literal, tokenType });
         }
     }
-    try bufferedWriter.flush();
+    try buffered_writer.flush();
 }
 
 const TokenType = enum {

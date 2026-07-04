@@ -1,5 +1,5 @@
 const std = @import("std");
-const Mutex = std.Thread.Mutex;
+const Mutex = std.Io.Mutex;
 
 fn is_palindrome(number: u32) bool {
     var reversed_number: u32 = 0;
@@ -14,7 +14,7 @@ fn is_palindrome(number: u32) bool {
     return original_number == reversed_number;
 }
 
-fn calculate_sum(start: u32, end: u32, sum: *u64, m: *Mutex) void {
+fn calculate_sum(io: std.Io, start: u32, end: u32, sum: *u64, m: *Mutex) void {
     var local_sum: u64 = 0;
     var x = start;
     while (x <= end) {
@@ -24,12 +24,14 @@ fn calculate_sum(start: u32, end: u32, sum: *u64, m: *Mutex) void {
         x += 1;
     }
 
-    m.lock();
+    m.lockUncancelable(io);
     sum.* += local_sum;
-    m.unlock();
+    m.unlock(io);
 }
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+
     const start = 100_000_000;
     const end = 999_999_999;
     const range = end - start;
@@ -37,7 +39,7 @@ pub fn main() !void {
     const cores = 4;
     const chunk = range / cores;
 
-    var m = Mutex{};
+    var m = Mutex.init;
     var sum: u64 = 0;
 
     var handles: [cores]std.Thread = undefined;
@@ -46,7 +48,7 @@ pub fn main() !void {
         const thread_start = start + (chunk * i);
         const thread_end = if (i == cores - 1) end else (thread_start + chunk - 1);
         //calculate_sum(thread_start, thread_end, &sum, &m);
-        handles[i] = try std.Thread.spawn(.{}, calculate_sum, .{ thread_start, thread_end, &sum, &m });
+        handles[i] = try std.Thread.spawn(.{}, calculate_sum, .{ io, thread_start, thread_end, &sum, &m });
         i += 1;
     }
 
@@ -54,8 +56,9 @@ pub fn main() !void {
         handle.join();
     }
 
-    m.lock();
-    const stdout = std.io.getStdOut().writer();
+    m.lockUncancelable(io);
+    var stdout_writer = std.Io.File.stdout().writer(init.io, &.{});
+    const stdout = &stdout_writer.interface;
     try stdout.print("{d}\n", .{sum});
-    m.unlock();
+    m.unlock(io);
 }

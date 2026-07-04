@@ -36,15 +36,11 @@ const BinaryTree = struct {
 
 const MIN_DEPTH = 4;
 
-pub fn main() !void {
-    const globalAllocator = std.heap.page_allocator;
-
-    var arena = std.heap.ArenaAllocator.init(globalAllocator);
-    defer arena.deinit();
+pub fn main(init: std.process.Init) !void {
+    const arena = init.arena;
     const allocator = arena.allocator();
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 2) {
         std.debug.print("Usage: {s} <depth>", .{args[0]});
@@ -54,16 +50,17 @@ pub fn main() !void {
     const n = try std.fmt.parseInt(u32, args[1], 10);
     const maxDepth = @max(MIN_DEPTH + 2, n);
 
-    var output = std.io.getStdOut().writer();
+    var stdout_writer = std.Io.File.stdout().writer(init.io, &.{});
+    const output = &stdout_writer.interface;
 
     {
         const stretchDepth = n + 1;
-        const stretchTree = BinaryTree.createBottomUp(stretchDepth, arena.allocator()).?;
+        const stretchTree = BinaryTree.createBottomUp(stretchDepth, allocator).?;
         const stretchCheck = stretchTree.countNodes();
         try output.print("stretch tree of depth {d}\t check: {d}\n", .{ stretchDepth, stretchCheck });
     }
 
-    var longLivedArea = std.heap.ArenaAllocator.init(globalAllocator);
+    var longLivedArea = std.heap.ArenaAllocator.init(init.gpa);
     defer longLivedArea.deinit();
     const longLivedAllocator = longLivedArea.allocator();
     const longLivedTree = BinaryTree.createBottomUp(maxDepth, longLivedAllocator).?;
@@ -76,7 +73,7 @@ pub fn main() !void {
         var i: u64 = 1;
         while (i <= iterations) : (i += 1) {
             _ = arena.reset(.retain_capacity);
-            const tempTree = BinaryTree.createBottomUp(depth, arena.allocator()).?;
+            const tempTree = BinaryTree.createBottomUp(depth, allocator).?;
             check += tempTree.countNodes();
         }
         try output.print("{d}\t trees of depth {d}\t check: {d}\n", .{ iterations, depth, check });

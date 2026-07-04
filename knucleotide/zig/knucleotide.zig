@@ -1,10 +1,6 @@
 const std = @import("std");
 const HashMap = std.StringHashMap(usize);
 
-fn print(comptime format: []const u8, args: anytype) !void {
-    try std.io.getStdOut().writer().print(format, args);
-}
-
 fn countNucleotides(data: []const u8, k: usize, allocator: std.mem.Allocator) !HashMap {
     var counts = HashMap.init(allocator);
     const endIndex = data.len - k;
@@ -21,7 +17,7 @@ fn comparePair(_: void, a: HashMap.Entry, b: HashMap.Entry) bool {
     return b.value_ptr.* < a.value_ptr.*;
 }
 
-pub fn printFrequencies(out: anytype, data: []const u8, k: usize, allocator: std.mem.Allocator) !void {
+pub fn printFrequencies(out: *std.Io.Writer, data: []const u8, k: usize, allocator: std.mem.Allocator) !void {
     var counts = try countNucleotides(data, k, allocator);
     defer counts.deinit();
     var total: usize = 0;
@@ -33,14 +29,14 @@ pub fn printFrequencies(out: anytype, data: []const u8, k: usize, allocator: std
     }
 
     var sortedPairs = try std.ArrayList(HashMap.Entry).initCapacity(allocator, counts.count());
-    defer sortedPairs.deinit();
+    defer sortedPairs.deinit(allocator);
 
     var it = counts.iterator();
     while (it.next()) |kv| {
-        try sortedPairs.append(kv);
+        try sortedPairs.append(allocator, kv);
     }
 
-    const pairs = try sortedPairs.toOwnedSlice();
+    const pairs = try sortedPairs.toOwnedSlice(allocator);
     std.sort.block(HashMap.Entry, pairs, {}, comparePair);
 
     var frequency: f64 = 0.0;
@@ -53,7 +49,7 @@ pub fn printFrequencies(out: anytype, data: []const u8, k: usize, allocator: std
     try out.print("\n", .{});
 }
 
-pub fn printSampleCount(out: anytype, data: []const u8, sample: []const u8, allocator: std.mem.Allocator) !void {
+pub fn printSampleCount(out: *std.Io.Writer, data: []const u8, sample: []const u8, allocator: std.mem.Allocator) !void {
     const k = sample.len;
     var counts = try countNucleotides(data, k, allocator);
     defer counts.deinit();
@@ -67,9 +63,8 @@ pub fn printSampleCount(out: anytype, data: []const u8, sample: []const u8, allo
     }
 }
 
-fn readData(file: std.fs.File, allocator: std.mem.Allocator) ![]u8 {
-    var reader = file.reader();
-    const input = try reader.readAllAlloc(allocator, 1024 * 1024 * 1024);
+fn readData(io: std.Io, dir: std.Io.Dir, sub_path: []const u8, allocator: std.mem.Allocator) ![]u8 {
+    const input = try dir.readFileAlloc(io, sub_path, allocator, std.Io.Limit.limited(1024 * 1024 * 1024));
     defer allocator.free(input);
     var lines = std.mem.splitScalar(u8, input, '\n');
     while (lines.next()) |line| {
@@ -81,10 +76,10 @@ fn readData(file: std.fs.File, allocator: std.mem.Allocator) ![]u8 {
     return data;
 }
 
-pub fn main() !void {
-    const allocator = std.heap.c_allocator;
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+    const allocator = init.arena.allocator();
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 3) {
         std.debug.print("Usage: {s} <input.txt> <output.txt>\n", .{args[0]});
@@ -94,22 +89,20 @@ pub fn main() !void {
     const input_path = args[1];
     const output_path = args[2];
 
-    const input_file = try std.fs.cwd().openFile(input_path, .{});
-    defer input_file.close();
+    const output_file = try std.Io.Dir.cwd().createFile(io, output_path, .{ .truncate = true });
+    defer output_file.close(io);
 
-    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
-    defer output_file.close();
+    var out_writer = output_file.writer(io, &.{});
+    const out = &out_writer.interface;
 
-    const out_writer = output_file.writer();
-
-    const data = try readData(input_file, allocator);
+    const data = try readData(io, std.Io.Dir.cwd(), input_path, allocator);
     defer allocator.free(data);
 
-    try printFrequencies(out_writer, data, 1, allocator);
-    try printFrequencies(out_writer, data, 2, allocator);
-    try printSampleCount(out_writer, data, "GGT", allocator);
-    try printSampleCount(out_writer, data, "GGTA", allocator);
-    try printSampleCount(out_writer, data, "GGTATT", allocator);
-    try printSampleCount(out_writer, data, "GGTATTTTAATT", allocator);
-    try printSampleCount(out_writer, data, "GGTATTTTAATTTATAGT", allocator);
+    try printFrequencies(out, data, 1, allocator);
+    try printFrequencies(out, data, 2, allocator);
+    try printSampleCount(out, data, "GGT", allocator);
+    try printSampleCount(out, data, "GGTA", allocator);
+    try printSampleCount(out, data, "GGTATT", allocator);
+    try printSampleCount(out, data, "GGTATTTTAATT", allocator);
+    try printSampleCount(out, data, "GGTATTTTAATTTATAGT", allocator);
 }

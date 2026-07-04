@@ -12,7 +12,7 @@ fn randomNum() f64 {
 
 const WIDTH: usize = 60;
 
-fn repeatFasta(out: anytype, header: []const u8, comptime s: []const u8, repeat: usize) !void {
+fn repeatFasta(out: *std.Io.Writer, header: []const u8, comptime s: []const u8, repeat: usize) !void {
     try out.print("{s}", .{header});
     var pos: usize = 0;
     const sLen: usize = s.len;
@@ -43,12 +43,10 @@ fn accumulateProbabilities(genelist: []AminoAcid) void {
     }
 }
 
-fn randomFasta(out: anytype, header: []const u8, genelist: []AminoAcid, repeat: usize) !void {
+fn randomFasta(out: *std.Io.Writer, header: []const u8, genelist: []AminoAcid, repeat: usize) !void {
     try out.print("{s}", .{header});
     accumulateProbabilities(genelist);
     var buf: [WIDTH]u8 = undefined;
-    var fbs = std.io.fixedBufferStream(&buf);
-    const ss = fbs.writer();
     var count = repeat;
     while (count > 0) {
         const length = @min(WIDTH, count);
@@ -57,25 +55,21 @@ fn randomFasta(out: anytype, header: []const u8, genelist: []AminoAcid, repeat: 
             const r = randomNum();
             for (genelist) |gene| {
                 if (gene.p >= r) {
-                    try ss.writeByte(gene.c);
+                    buf[pos] = gene.c;
                     break;
                 }
             }
         }
-        try out.print("{s}\n", .{fbs.getWritten()});
-        fbs.reset();
+        try out.print("{s}\n", .{buf[0..length]});
         count -= length;
     }
 }
 
-pub fn main() !void {
-    const backingAllocator = std.heap.page_allocator;
-    var arena = std.heap.ArenaAllocator.init(backingAllocator);
-    defer arena.deinit();
-    const allocator = arena.allocator();
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+    const allocator = init.arena.allocator();
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 3) {
         std.debug.print("Usage: {s} <size> <output.txt>", .{args[0]});
@@ -85,11 +79,12 @@ pub fn main() !void {
     const n = try std.fmt.parseInt(usize, args[1], 10);
 
     const output_path = args[2];
-    const output_file = try std.fs.cwd().createFile(output_path, .{ .truncate = true });
-    defer output_file.close();
-    var bufferedWriter = std.io.bufferedWriter(output_file.writer());
-    defer bufferedWriter.flush() catch unreachable;
-    const out = bufferedWriter.writer();
+    const output_file = try std.Io.Dir.cwd().createFile(io, output_path, .{ .truncate = true });
+    defer output_file.close(io);
+
+    var write_buffer: [4096]u8 = undefined;
+    var buffered_writer = output_file.writer(io, &write_buffer);
+    const out = &buffered_writer.interface;
 
     const alu = "GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG" ++
         "GGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGA" ++
@@ -125,4 +120,6 @@ pub fn main() !void {
         AminoAcid{ .p = 0.1975473066391, .c = 'g' },
         AminoAcid{ .p = 0.3015094502008, .c = 't' }};
     try randomFasta(out, ">THREE Homo sapiens frequency\n", homosapiens[0..], 5 * n);
+
+    try buffered_writer.flush();
 }

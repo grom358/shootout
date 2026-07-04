@@ -122,13 +122,10 @@ fn advance(system: []Body, dt: f64) void {
     }
 }
 
-pub fn main() !void {
-    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
-    defer arena.deinit();
-    const allocator = arena.allocator();
+pub fn main(init: std.process.Init) !void {
+    const allocator = init.arena.allocator();
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     if (args.len != 2) {
         std.debug.print("Usage: {s} <num_steps>", .{args[0]});
@@ -137,7 +134,8 @@ pub fn main() !void {
 
     const n = try std.fmt.parseInt(u32, args[1], 10);
     const dt = 0.01;
-    const stdout = std.io.getStdOut().writer();
+    var stdout_writer = std.Io.File.stdout().writer(init.io, &.{});
+    const stdout = &stdout_writer.interface;
 
     const sys: []Body = System[0..];
     offset_momemtum(sys);

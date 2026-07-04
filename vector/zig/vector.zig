@@ -17,10 +17,10 @@ const Random = struct {
     }
 };
 
-pub fn main() !void {
-    const allocator = std.heap.c_allocator;
+pub fn main(init: std.process.Init) !void {
+    const allocator = init.gpa;
     var numbers = try std.ArrayList(usize).initCapacity(allocator, 16);
-    defer numbers.deinit();
+    defer numbers.deinit(allocator);
 
     var rand = Random.init();
     const max: usize = 100;
@@ -28,7 +28,7 @@ pub fn main() !void {
 
     var i: usize = 0;
     while (i < size) : (i += 1) {
-        try numbers.append(rand.next(max));
+        try numbers.append(allocator, rand.next(max));
     }
 
     var sum: usize = 0;
@@ -37,6 +37,7 @@ pub fn main() !void {
         sum += numbers.items[rand.next(size)];
     }
 
-    const stdout = std.io.getStdOut().writer();
+    var stdout_writer = std.Io.File.stdout().writer(init.io, &.{});
+    const stdout = &stdout_writer.interface;
     try stdout.print("{}\n", .{sum});
 }
