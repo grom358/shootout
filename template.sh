@@ -234,7 +234,14 @@ lang=zig
 mkdir $name/$lang
 cat > $name/$lang/build.sh << EOF
 #!/bin/sh
-zig build-exe -O ReleaseFast $name.zig
+make
+EOF
+cat > $name/$lang/Makefile << EOF
+TARGET = $name
+SRC = $(TARGET).zig
+
+$(TARGET): $(SRC)
+        zig build-exe -O ReleaseFast -femit-bin=$@ $<
 EOF
 chmod a+x $name/$lang/build.sh
 cat > $name/$lang/clean.sh << EOF
