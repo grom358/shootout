@@ -5,6 +5,7 @@ cpp
 cpp_arena
 cpp_boost
 csharp
+c3
 d
 d_nogc
 d_region

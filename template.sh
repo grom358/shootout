@@ -33,6 +33,7 @@ sed -i "s/NAME/$name/" $name/README.md
 cat > $name/languages.txt << EOF
 c
 cpp
+c3
 go
 rust
 zig
@@ -152,6 +153,32 @@ int main() {
     return 0;
 }
 EOF
+
+# Setup c3 implementation
+lang=c3
+mkdir $name/$lang
+cat > $name/$lang/build.sh << EOF
+#!/bin/sh
+c3c -O5 compile $name.c3
+EOF
+chmod a+x $name/$lang/build.sh
+cat > $name/$lang/clean.sh << EOF
+#!/bin/sh
+rm $name
+EOF
+chmod a+x $name/$lang/clean.sh
+cat > $name/$lang/.gitignore << EOF
+$name
+EOF
+cat > $name/$lang/$name.c3 << 'EOF'
+import std::io;
+
+fn int main(String[] args) {
+	io::printfn("Hello World!");
+	return 0
+}
+EOF
+
 
 # Setup Go implementation
 lang=go
