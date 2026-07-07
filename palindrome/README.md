@@ -10,15 +10,10 @@ The answer 49500000000000 should be printed to standard output.
 * Number of cores is hard coded to 4 since many languages didn't have easy way
   to get the number of physical CPU cores, usually providing only virtual cores.
 
-```
-# Generate report
-$ ./generate.sh
-```
-
 ## Results
 
 Tested on AMD Ryzen 5 7600X 6-Core Processor
-Windows 11 WSL - Ubuntu 24.04 LTS
+CachyOS 2026.07.06
 
 Legend:
 * Time = Total seconds
@@ -26,13 +21,14 @@ Legend:
 
 | Language | Time |   RSS |
 | -------- | ---: | ----: |
-| rust     | 1.48 |  3472 |
-| zig      | 1.54 |  3384 |
-| go       | 1.92 |  3664 |
-| csharp   | 1.96 | 34060 |
-| c        | 1.97 |  3332 |
-| odin     | 2.03 |  3452 |
-| cpp      | 2.04 |  4208 |
-| d        | 2.21 |  3300 |
-| java     | 2.32 | 45044 |
-| nim      | 2.58 |  3500 |
+| rust     | 2.03 |  5484 |
+| zig      | 2.15 |  5488 |
+| c3       | 2.68 |  5428 |
+| csharp   | 2.80 | 38488 |
+| odin     | 2.83 |  5456 |
+| c        | 2.87 |  5500 |
+| d        | 3.00 |  5460 |
+| cpp      | 3.04 |  5480 |
+| go       | 3.09 |  5812 |
+| nim      | 3.09 |  5480 |
+| java     | 3.18 | 47544 |

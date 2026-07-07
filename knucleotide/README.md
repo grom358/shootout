@@ -15,22 +15,10 @@ Each program should:
    * count all the 3- 4- 6- 12- and 18-nucleotide sequences, and write the count
     and code for the specific sequences GGT GGTA GGTATT GGTATTTTAATT GGTATTTTAATTTATAGT
 
-## Notes
-```
-# Build
-$ ./build.sh
-
-# Clean
-$ ./clean.sh
-
-# Generate report
-$ ./generate.sh
-```
-
 ## Results
 
 Tested on AMD Ryzen 5 7600X 6-Core Processor
-Windows 11 WSL - Ubuntu 24.04 LTS
+CachyOS 2026.07.06
 
 Legend:
 * Time = Total seconds
@@ -38,13 +26,14 @@ Legend:
 
 | Language |  Time |     RSS |
 | -------- | ----: | ------: |
-| zig      |  6.40 |  487480 |
-| go       |  9.86 |  302280 |
-| cpp      | 10.35 |  134008 |
-| rust     | 13.22 |  138840 |
-| c        | 15.74 |  260764 |
-| odin     | 16.39 |  141268 |
-| nim      | 28.98 |  445180 |
-| java     | 30.16 | 1166288 |
-| csharp   | 33.10 |  545328 |
-| d        | 41.28 |  592844 |
+| zig      |  6.99 |  392684 |
+| d        |  8.90 |  311660 |
+| go       |  9.49 |  376532 |
+| cpp      | 10.50 |  133776 |
+| rust     | 11.69 |  139088 |
+| c        | 14.42 |  259816 |
+| odin     | 16.39 |  140952 |
+| c3       | 16.69 |  269840 |
+| nim      | 20.00 |  446956 |
+| java     | 24.48 | 1303032 |
+| csharp   | 28.30 |  558408 |

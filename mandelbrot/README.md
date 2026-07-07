@@ -4,18 +4,10 @@ Plot the Mandelbrot set [-1.5-i,0.5+i] on an 16000x16000 bitmap. Write output in
 ## Notes
 c_reference contains the reference implementation. Used to generate test16000.pbm for comparison.
 
-```
-# Create test dataset.
-$ ./setup.sh
-
-# Generate report
-$ ./generate.sh
-```
-
 ## Results
 
 Tested on AMD Ryzen 5 7600X 6-Core Processor
-Windows 11 WSL - Ubuntu 24.04 LTS
+CachyOS 2026.07.06
 
 Legend:
 * Time = Total seconds
@@ -23,13 +15,14 @@ Legend:
 
 | Language |  Time |   RSS |
 | -------- | ----: | ----: |
-| nim      |  9.87 |  3412 |
-| odin     | 10.46 |  3320 |
-| zig      | 10.52 |  3400 |
-| d        | 11.07 |  4124 |
-| go       | 11.26 |  3676 |
-| rust     | 11.92 |  3460 |
-| java     | 12.10 | 51528 |
-| cpp      | 12.24 |  3768 |
-| c        | 13.78 |  3412 |
-| csharp   | 22.83 | 31380 |
+| c3       | 10.20 |  5512 |
+| zig      | 10.57 |  5468 |
+| odin     | 10.67 |  5460 |
+| nim      | 10.70 |  5460 |
+| rust     | 10.87 |  5508 |
+| cpp      | 11.05 |  5440 |
+| java     | 11.06 | 49600 |
+| c        | 11.13 |  5480 |
+| go       | 11.61 |  5896 |
+| d        | 12.87 |  5444 |
+| csharp   | 23.37 | 50176 |

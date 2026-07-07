@@ -16,22 +16,10 @@ Each program should:
 * Fill a vector with 200,000,000 random numbers
 * Select 1,000 random numbers and print the sum
 
-## Notes
-```
-# Build
-$ ./build.sh
-
-# Clean
-$ ./clean.sh
-
-# Generate report
-$ ./generate.sh
-```
-
 ## Results
 
 Tested on AMD Ryzen 5 7600X 6-Core Processor
-Windows 11 WSL - Ubuntu 24.04 LTS
+CachyOS 2026.07.06
 
 Legend:
 * Time = Total seconds
@@ -39,13 +27,14 @@ Legend:
 
 | Language | Time |     RSS |
 | -------- | ---: | ------: |
-| d        | 0.52 |  785880 |
-| rust     | 0.63 | 1565180 |
-| cpp      | 0.77 | 1052360 |
-| odin     | 1.01 | 1574744 |
-| c        | 1.08 |  783288 |
-| csharp   | 1.16 | 1798256 |
-| nim      | 1.42 | 4824492 |
-| zig      | 1.44 | 2454884 |
-| java     | 2.73 | 3260228 |
-| go       | 3.92 | 6037736 |
+| d        | 0.49 |  786772 |
+| zig      | 0.52 | 1565860 |
+| rust     | 0.55 | 1565884 |
+| cpp      | 0.57 | 1053340 |
+| c        | 0.77 |  784144 |
+| odin     | 0.81 | 1564608 |
+| c3       | 0.89 | 1050300 |
+| csharp   | 0.91 | 1841380 |
+| go       | 0.99 | 4843988 |
+| nim      | 1.06 | 4513516 |
+| java     | 1.21 | 1809712 |

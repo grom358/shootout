@@ -13,28 +13,15 @@ Each program should:
     IA = 3877
     IC = 29573
     Seed = 42
-        
+
     Random Number:
     Seed = (Seed * IA + IC) modulo IM
     return float(Seed) / IM
     ```
-
-## Notes
-```
-# Build
-$ ./build.sh
-
-# Clean
-$ ./clean.sh
-
-# Generate report
-$ ./generate.sh
-```
-
 ## Results
 
 Tested on AMD Ryzen 5 7600X 6-Core Processor
-Windows 11 WSL - Ubuntu 24.04 LTS
+CachyOS 2026.07.06
 
 Legend:
 * Time = Total seconds
@@ -42,13 +29,14 @@ Legend:
 
 | Language | Time |    RSS |
 | -------- | ---: | -----: |
-| zig      | 2.06 |   3492 |
-| rust     | 2.17 |   3460 |
-| d        | 2.21 |   3388 |
-| go       | 2.29 |   3684 |
-| odin     | 2.36 |   3412 |
-| c        | 2.40 |   3372 |
-| nim      | 2.47 |   3464 |
-| cpp      | 2.63 |   3932 |
-| csharp   | 2.76 |  49924 |
-| java     | 2.87 | 367584 |
+| c3       | 2.04 |   5468 |
+| c        | 2.09 |   5468 |
+| zig      | 2.16 |   5480 |
+| go       | 2.21 |   5880 |
+| rust     | 2.25 |   5492 |
+| odin     | 2.28 |   5540 |
+| cpp      | 2.31 |   5496 |
+| d        | 2.46 |   5452 |
+| nim      | 2.48 |   5464 |
+| csharp   | 2.61 |  65164 |
+| java     | 2.91 | 130836 |

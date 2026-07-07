@@ -3,6 +3,7 @@ Evaluation of programming languages:
 * C
 * C#
 * C++
+* C3
 * D
 * Go
 * Java
@@ -48,6 +49,31 @@ Generate and write random DNA sequences. From the [The Computer Language Benchma
 ### knucleotide
 Hashtable of k-nucleotide strings. From the [The Computer Language Benchmark Games](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/knucleotide.html#knucleotide).
 
+## Build
+The following compilers were used:
+
+| Language | Version             |
+| -------- | ------------------- |
+| C        | GCC 16.1.1 20260625 |
+| C++      | GCC 16.1.1 20260625 |
+| C#       | .Net 10.0.300       |
+| C3       | 0.8.1               |
+| D        | LDC 1.42.0          |
+| Go       | 1.26.4              |
+| Java     | OpenJDK 26.0.1      |
+| Nim      | 2.2.10              |
+| Odin     | dev-2026-06         |
+| Rust     | 1.96.1              |
+| Zig      | 0.16.0              |
+
+Additionally the following software is used:
+* bash
+* awk
+* diff
+* time (/usr/bin/time). Optional has fullback to bash time but then do not get RSS results.
+* make
+* Maven (mvn): Used for Java builds
+
 # Notes
 
 ## C
@@ -84,6 +110,15 @@ Pros:
 Cons:
 * Bloated language. No mere mortal can know all the language.
 * Hidden control flow. Eg. copy/move constructors are called and its not obvious.
+
+## C3
+Pros:
+* Better standard library then C
+
+Cons:
+* Missing documentation
+* Limited examples
+* No 1.0 release
 
 ## D
 Pros:
