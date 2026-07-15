@@ -50,9 +50,11 @@ main :: proc() {
 
 	buf_writer: bufio.Writer
 	bufio.writer_init(&buf_writer, stream_out)
-	writer := bufio.writer_to_writer(&buf_writer)
+	//writer := bufio.writer_to_writer(&buf_writer)
 
 	lexer := lexer_init(buffer[:])
+	builder: strings.Builder
+	strings.builder_init_len_cap(&builder, 0, ChunkSize)
 	for {
 		defer free_all(context.temp_allocator)
 		token := lexer_next_token(&lexer)
@@ -67,7 +69,19 @@ main :: proc() {
 		if token.type == TokenType.String || token.type == TokenType.Comment {
 			literal, _ = strings.replace_all(literal, "\"", "\"\"", context.temp_allocator)
 		}
-		fmt.wprintf(writer, "%d,%d,\"%s\",\"%s\"\n", token.line_no, token.col_no, literal, type, flush=false)
+		// The format machinery is slow. Instead of
+		// fmt.wprintf(writer, "%d,%d,\"%s\",\"%s\"\n", token.line_no, token.col_no, literal, type)
+		// build the string and write
+		strings.write_uint(&builder, token.line_no)
+		strings.write_rune(&builder, ',')
+		strings.write_uint(&builder, token.col_no)
+		strings.write_string(&builder, ",\"")
+		strings.write_string(&builder, literal)
+		strings.write_string(&builder, "\",\"")
+		strings.write_string(&builder, token_type_string(token.type))
+		strings.write_string(&builder, "\"\n")
+		bufio.writer_write_string(&buf_writer, strings.to_string(builder))
+		strings.builder_reset(&builder)
 	}
 	bufio.writer_flush(&buf_writer)
 }

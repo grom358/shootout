@@ -5,8 +5,11 @@ c3
 d
 d_pgo
 go
+go_custom
 java
+java_custom
 nim
 odin
+odin_custom
 rust
 zig

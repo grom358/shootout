@@ -40,20 +40,13 @@ For strings the surrounding double quotes are stripped in the CSV.
 ## Notes
 To avoid I/O bottleneck dominating the benchmark the input is put into RAM (see setup.sh)
 
-The following implementations are slow with built-in output formatting:
-* Go
-* Java (PrintWriter also uses synchroized locks)
-* Odin
-
-Legend:
-* Format = Using built-in output formatting
-* Custom = Custom output
-
-| Language | Format | Custom |
-| -------- | -----: | -----: |
-| Go       | 3.312  | 1.240  |
-| Java     | 5.735  | 2.471  |
-| Odin     | 5.935  | 2.322  |
+The default implementation for languages is to use formatted string output (eg. printf).
+Some languages this induces significant overhead and alternative implementations that
+bypass this layer are implemented:
+* go_custom: Use writer.WriteString calls instead of fmt.Fprintf
+* odin_custom: Use string builder instead of fmt.wprintf
+* java_custom: Use OutputStream instead of PrintWriter. Note that PrintWriter is using
+  synchronzied locks for thread safety.
 
 ## Results
 
@@ -64,17 +57,20 @@ Legend:
 * Time = Total seconds
 * RSS = maximum resident set size in KB
 
-| Language | Time |    RSS |
-| -------- | ---: | -----: |
-| zig      | 0.49 |  30688 |
-| go       | 0.76 |  65668 |
-| odin     | 0.77 |  32500 |
-| rust     | 0.80 |  31056 |
-| c        | 0.84 |  51124 |
-| nim      | 0.87 |  59396 |
-| d_pgo    | 1.08 |  36092 |
-| cpp      | 1.14 |  62236 |
-| java     | 1.17 | 365700 |
-| csharp   | 1.54 | 168328 |
-| d        | 1.69 |  36108 |
-| c3       | 2.37 |  30392 |
+| Language    | Time |    RSS |
+| ----------- | ---: | -----: |
+| zig         | 0.29 |  30532 |
+| rust        | 0.65 |  31056 |
+| go_custom   | 0.69 |  67804 |
+| odin_custom | 0.71 |  32572 |
+| c           | 0.77 |  51204 |
+| nim         | 0.81 |  59816 |
+| d_pgo       | 1.01 |  36104 |
+| cpp         | 1.02 |  62956 |
+| java_custom | 1.04 | 365644 |
+| odin        | 1.34 |  32608 |
+| csharp      | 1.48 | 165424 |
+| go          | 1.51 |  66148 |
+| d           | 1.60 |  36116 |
+| c3          | 2.25 |  30396 |
+| java        | 2.52 | 375384 |
