@@ -2,6 +2,7 @@ c
 cpp
 csharp
 c3
+c3_custom
 d
 d_pgo
 go

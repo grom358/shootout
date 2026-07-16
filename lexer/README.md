@@ -43,6 +43,7 @@ To avoid I/O bottleneck dominating the benchmark the input is put into RAM (see 
 The default implementation for languages is to use formatted string output (eg. printf).
 Some languages this induces significant overhead and alternative implementations that
 bypass this layer are implemented:
+* c3_custom: Use OutStream write calls instead of Formatter
 * go_custom: Use writer.WriteString calls instead of fmt.Fprintf
 * odin_custom: Use string builder instead of fmt.wprintf
 * java_custom: Use OutputStream instead of PrintWriter. Note that PrintWriter is using
@@ -60,6 +61,7 @@ Legend:
 | Language    | Time |    RSS |
 | ----------- | ---: | -----: |
 | zig         | 0.29 |  30532 |
+| c3_custom   | 0.61 |  30384 |
 | rust        | 0.65 |  31056 |
 | go_custom   | 0.69 |  67804 |
 | odin_custom | 0.71 |  32572 |
