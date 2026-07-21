@@ -1,0 +1,23 @@
+(executable
+ (name zscript)
+ (libraries str)
+ (ocamlopt_flags
+  (:standard
+   -O3
+   -inline
+   100
+   -nodynlink
+   -ccopt
+   -s
+   -ccopt
+   -O3
+   -ccopt
+   -march=native)))
+
+(rule
+ (alias default)
+ (target zscript)
+ (action
+  (copy zscript.exe zscript))
+ (mode
+  (promote (until-clean))))

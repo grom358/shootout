@@ -13,6 +13,7 @@ go
 go_arena
 java
 nim
+ocaml
 odin
 odin_arena
 rust

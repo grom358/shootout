@@ -5,6 +5,7 @@ d
 go
 java
 nim
+ocaml
 odin
 rust
 zig

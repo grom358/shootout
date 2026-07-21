@@ -8,6 +8,7 @@ Evaluation of programming languages:
 * Go
 * Java
 * Nim
+* OCaml
 * Odin
 * Rust
 * Zig

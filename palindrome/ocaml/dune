@@ -1,0 +1,22 @@
+(executable
+ (name palindrome)
+ (ocamlopt_flags
+  (:standard
+   -O3
+   -inline
+   100
+   -nodynlink
+   -ccopt
+   -s
+   -ccopt
+   -O3
+   -ccopt
+   -march=native)))
+
+(rule
+ (alias default)
+ (target palindrome)
+ (action
+  (copy palindrome.exe palindrome))
+ (mode
+  (promote (until-clean))))

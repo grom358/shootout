@@ -10,6 +10,7 @@ go_custom
 java
 java_custom
 nim
+ocaml
 odin
 odin_custom
 rust

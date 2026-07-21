@@ -45,6 +45,11 @@ Hello World to test startup and minimum memory costs.
   * linux-vdso.so.1
   * /usr/lib/libc.so.6
   * /usr/lib/ld-linux-x86-64.so.2
+* OCaml
+  * linux-vdso.so.1
+  * /usr/lib/libm.so.6
+  * /usr/lib/libc.so.6
+  * /usr/lib/ld-linux-x86-64.so.2
 * Odin
   * linux-vdso.so.1
   * /usr/lib/libm.so.6
@@ -75,6 +80,7 @@ Legend:
 | nim      | 0.00 |  1512 |   36 |
 | c3       | 0.00 |  1516 |  120 |
 | odin     | 0.00 |  1688 |  192 |
+| ocaml    | 0.00 |  5444 |  428 |
 | rust     | 0.00 |  2224 |  436 |
 | d        | 0.00 |  2868 | 1204 |
 | go       | 0.00 |  5676 | 2404 |
