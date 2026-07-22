@@ -63,6 +63,7 @@ The following compilers were used:
 | Go       | 1.26.4              |
 | Java     | OpenJDK 26.0.1      |
 | Nim      | 2.2.10              |
+| OCaml    | 5.5.0               |
 | Odin     | dev-2026-06         |
 | Rust     | 1.96.1              |
 | Zig      | 0.16.0              |
@@ -74,6 +75,7 @@ Additionally the following software is used:
 * time (/usr/bin/time). Optional has fullback to bash time but then do not get RSS results.
 * make
 * Maven (mvn): Used for Java builds
+* dune: Used for OCaml builds
 
 # Notes
 
@@ -156,6 +158,19 @@ Cons:
 * There is a tendency in the community to over abstract
 
 ## Nim
+Pros:
+* Powerful metaprogramming
+
+Cons:
+* Small community
+
+## OCaml
+Pros:
+* Type inference
+* Fast compiler
+
+Cons:
+* Garbage collector
 
 ## Odin
 Pros:
